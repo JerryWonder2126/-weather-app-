@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta name="viewport" content="width=device-width; initial-scale=1; shrink=no" />
+
+		<meta charset="utf-8" />
+
+		<title>Smash It.smash</title>
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Modak" />
+
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lobster" />
+
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Xanh Mono" />
+
+		<link rel="stylesheet" href="./css/index.css" />
+
+	</head>
+	<body>
+		<div id="loader" class="hidden"></div>
+		<div class="clar" id="smash_container">
+			<header>
+				<h1>Watch Out</h1>
+				<div id="smash_date">
+					<p>Today's Date</p>
+				</div>
+				<nav>
+					<ul>
+						<li>
+							<button class="nav_item active" role="button" id="home">Home</button>
+						</li>
+						<li>
+							<button class="nav_item" role="button" id="prev-forecast">Previous Forecast</button>
+						</li>
+						<li>
+							<button class="nav_item" role="button" id="about-us">About Us</button>
+						</li>
+						<li>
+							<button class="nav_item" role="button" id="contact-us">Contact Us</button>
+						</li>
+					</ul>
+				</nav>
+			<section>
+			    <div id="search-form-wrapper">
+					<div id="search-info">
+						<p>Get weather forecast for other cities.
+               Enter the name of the city to start searching.
+						</p>
+					</div>
+					<div id="search-box-wrapper">
+						<form id="search-form">
+							<input id="search-text" name="search" type="text" placeholder="Start searching..."/>
+                  <img src='./extras/spinner.gif' class='hidden' id='spinner'/>
+						</form>
+						<div id="search-list" class="hidden"></div>
+					</div>
+				</div>
+			    <div id="smash_request" class="hidden">
+					<h2>Today's Weather Conditions in
+						<span id='country_name_request'>lert</span>.
+					</h2>
+					<div id='request-info' class="my_card"></div>
+				</div>
+			</section>
+			<main>
+				
+				<p id="out-of-date-msg" class="msg hidden">The present data is out-of-date, 
+    please click the refresh data button
+				</p>
+				<p id="no-connection" class="msg hidden">Sorry, we couldn't establish a connection.
+    Please refresh the page or check your internet connection.
+				</p>
+				<p id="progress" class="hidden">Loading... Please wait.</p>
+				<button role="button" id="refresh-button">Refresh data</button>
+				<div id="smash_today">
+					<h2>Today's Weather Condition in
+						<span id='country_name_today'></span>.
+					</h2>
+					<div id="smash_today_box" class="smash_box my_card">
+						<p></p>
+					</div>
+				</div>
+				<div id="smash_prev" class="hidden">
+					<h2>Previous Weather Conditions in
+						<span id='country_name_prev'></span>.
+					</h2>
+					<div class="smash_box my_card"></div>
+					<div class="smash_box my_card"></div>
+					<div class="smash_box my_card"></div>
+					<div class="smash_box my_card"></div>
+				</div>
+			</main>
+			<section>
+			    <div id="smash_about" class="hidden">
+					<h2>About Us</h2>
+					<img src="./extras/smash owner.jpg" />
+
+					<div id="smash_about_note">
+						<p>Sylvester Presley, the owner of smash it. This app was created to help you 
+      with weather forecast for our upcoming programmes.
+						</p>
+					</div>
+				</div>
+			</section>
+			<section>
+				<div id="smash_contact" class="hidden">
+					<h2>Contact Us</h2>
+					<div id="contact-form-wrapper">
+						<form id="contact-form">
+							<div class="contact-field-wrapper">
+								<div class='contact-field-label'>
+									<label for="contact-name">Name:</label>
+								</div>
+								<div>
+									<input id="contact-name" class="contact-field" name="contact-name" type="text" placeholder="Enter your name here" required/>
+
+								</div>
+							</div>
+							<div class="contact-field-wrapper">
+								<div class='contact-field-label'>
+									<label for="contact-email">Email:</label>
+								</div>
+								<div>
+									<input id="contact-email" class="contact-field" name="contact-email" type="email" placeholder="Please enter a working email address" required/>
+
+								</div>
+							</div>
+							<div class="contact-field-wrapper">
+								<div class='contact-field-label'>
+									<label for="contact-msg">Message:</label>
+								</div>
+								<div>
+									<textarea id="contact-msg" class="contact-field" name="contact-msg" placeholder="What do you want to tell us?" required></textarea>
+
+								</div>
+							</div>
+							<input type="submit" value="Send" id="contact-submit" />
+
+						</form>
+					</div>
+				</div>
+			</section>
+			<footer class="my_card">
+				<div id="smash_credits">
+					<ul class="footer-wrapper">
+						<li id="copy-rite" class="footer-item">WatchOut &copy 2020</li>
+					</ul>
+				</div>
+			</footer>
+		</div>
+		<script src="./js/base.js"></script>
+		<script>
+            
+        </script>
+	</body>
+</html>
