@@ -1,0 +1,84 @@
+@media only screen and (min-width: 900px), only screen and (min-device-width: 900px) {
+    .site_logo img{
+        width: 10vw;
+        margin: 20px 30px;
+    }
+    .alerts{
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 1em;
+    }
+    #smash_boxes, #smash_request{
+        flex-grow: 3;
+    }
+    #smash_request h2{
+        text-align: center;
+    }
+    .smash_btn_wrapper button, input[type=submit]{
+        width: 200px;
+    }
+    #smash_about{
+        flex-grow: 1;
+        max-width: 35vw;
+    }
+    /*Formatting for forecasts gotten from API*/
+
+    .details-header{
+        width: 100%;
+        clear: both;
+        text-align: center;
+    }
+    .details-time{
+        margin-top: 20px;
+        text-align: end;
+    }
+    .details-time .to-left{
+        float: right;
+    }
+    .details-main{
+        margin-bottom: 5px;
+        text-align: center;
+    }
+    .details-basic{
+        width: 50%;
+        float: left;
+    }
+    .details-icon{
+        display: inline;
+        margin: -40px -40px -40px -20px;
+    }
+    .details-weather{
+        text-align:center;
+        text-transform: capitalize;
+    }
+    .details-title{
+        font-weight: 600;
+    }
+    /*
+    nav{
+        width: 60vw;
+    }/*
+    nav ul li{
+        list-style-type: none;
+        margin-right: 10px;
+        display: inline; 
+        white-space: nowrap;      
+    } */
+    /* #search-box-wrapper{
+        width: 40%;
+        padding-right: 60%;
+        padding-bottom: 20px;
+    }
+    #contact-form-wrapper{
+        width: 700px;
+    }
+    #smash_about{
+        width: 100%;
+        text-align: justify;
+        line-height: 30px;
+        color: white;
+        margin-bottom: 10px;
+    }
+    
+     */
+}

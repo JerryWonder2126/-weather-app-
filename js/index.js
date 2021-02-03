@@ -11,8 +11,8 @@ window.onload = function (){
         fill_node: document.querySelector('#smash_request'),
         nav_items: document.getElementsByClassName('nav_item'),
         smash_today_box: document.getElementById('smash_today_box'),
-        smash_boxes: document.getElementsByClassName('smash_box'),
-        out_of_date: document.querySelector('#out-of-date-msg'),
+        smash_boxes: document.querySelectorAll('smash_box'),
+        not_found: document.querySelector('#not-found'),
         no_connection: document.querySelector('#no-connection'),
         main_div: document.querySelector('main'),
         about_div: document.querySelector('#smash_about'),
@@ -85,7 +85,7 @@ window.onload = function (){
     let proc_gmt = function(time_stamp){
         /* processes timestamp and returns in the amount of 
         elapsed secs,mins,days,weeks,months or years */
-        let secs = (Date.now() - time_stamp)/1000;
+        let secs = Math.abs(Date.now() - time_stamp)/1000;
         let res = "";
         if(secs>=60 && secs<3600){
             //i.e still less than an hour
@@ -104,11 +104,40 @@ window.onload = function (){
             res = parseInt(secs/2419200) + " month(s) ago";
         }else if(secs>=29030400){
             //i.e more than or equal to a year
-            console.log(secs);
             res = parseInt(secs/29030400) + " year(s) ago";
         }else{
             //i.e still less than a minute
             res = parseInt(secs) + " sec(s) ago";
+        }
+        return res;
+    }
+
+    let proc_gmt_days = function(time_stamp){
+        /* processes timestamp and returns the amount of 
+        days from now */
+        let stamp_day = Number(new Date(time_stamp).getDate());
+        let day_diff = Math.abs(stamp_day - new Date().getDate());
+        let month_diff = Math.abs(new Date(time_stamp).getMonth() - new Date().getMonth());
+        let res = "";
+        if(month_diff > 0){//i.e time_stamp falls into a succeding month
+            if(month_diff === 1){// time_stamp falls into the next month
+                console.log("here");
+                if(stamp_day === 1){//i.e next day is the first day of the next month
+                    res = "tomorrow";
+                }else{
+                    day_diff = parseInt(Math.abs(Date.now()-time_stamp)/86400) + 1;
+                    res = `${day_diff} days from now`;
+                }
+            }else{//i.e time_stamp falls farther than a month
+                day_diff = parseInt(Math.abs(Date.now() - time_stamp)/86400);
+                res = `${day_diff} days from now`;
+            }   
+        }else if(day_diff === 0){
+            res = "today";
+        }else if(day_diff === 1){
+            res = "tomorrow";
+        }else{
+            res = `${day_diff} days from now`;
         }
         return res;
     }
@@ -122,19 +151,9 @@ window.onload = function (){
             //if smash_next is not defined use #smash_today_box as defualt
             smash_next = document.getElementById('smash_today_box');
         }
-        
+        smash_next.querySelector("h2").textContent = proc_gmt_days(data.dt*1000);
         let time = proc_gmt(Number(retrieved_time));
         //Format response and make it ready for display
-        // smash_next.innerHTML += '<p class="details"><span class="details-main"><span class="details-title">Timezone:</span> ' + data.timezone + '</span>&nbsp<span class="details-main">' + '(' + data.lon + ', ' + data.lat + ')' + '</span><span class="details-time"><span class="details-title">Last Update:</span> ' + time + '</span></span></p>\n';
-        // smash_next.innerHTML += '<h3 class="details-header">Basic Details</h3>\n'; //&#8451
-        // smash_next.innerHTML += '<p class="details-basic"><span class="details-title">Temperature:</span> ' + data.temp + '°C </p>\n';
-        // smash_next.innerHTML += '<p class="details-basic"><span class="details-title">Pressure:</span> ' + data.pressure + 'hPa</p>\n';
-        // smash_next.innerHTML += '<p class="details-basic"><span class="details-title">Humidity:</span> ' + data.humidity + '&#37 </p>\n';
-        // smash_next.innerHTML += '<p class="details-basic"><span class="details-title">Cloudiness:</span> ' + data.clouds + '&#37</p>\n';
-        // smash_next.innerHTML += '<p class="details-basic"><span class="details-title">Feels Like:</span> ' + data.feels_like + '°C </p>\n';
-        // smash_next.innerHTML += '<h3 class="details-header">Weather Condition</h3>\n';
-        // smash_next.innerHTML += '<p class="details-weather"><span class="details-title">Weather: </span> ' + data.weather[0].main + ' --- ' + data.weather[0].description + ' <img class="details-icon" src="http://openweathermap.org/img/wn/' + data.weather[0].icon + '@2x.png" alt="icon"/>'  + '</p>\n';
-        // /*smash_next.innerHTML += '<p>' + data.current.weather[0].description + '</p>\n';*/
         let key = "";
         smash_next.querySelectorAll(".details-basic").forEach(function(value,index,array){
             key = value.querySelector(".details-content").getAttribute("data-name");
@@ -145,10 +164,10 @@ window.onload = function (){
             key = value.getAttribute("data-name");
             value.textContent = data.weather[0][key];
         });
+        let icon_url = `http://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png`;
+        smash_next.querySelector(".details-weather").querySelector("img").setAttribute("src", icon_url);
         smash_next.querySelector(".details-time")
         .querySelector(".details-content").textContent = time;
-
-        console.log(smash_next);
         
     }
 
@@ -180,24 +199,6 @@ window.onload = function (){
         }
         let the_response = await fetch(url);
         animate_click();
-        // let the_response = {
-        //     "timezone": "Africa/Usa",
-        //     "lon": 23,
-        //     "lat": 1.45,
-        //     "current": {
-        //         "temp": 23.43,
-        //         "dt": Date.now(),
-        //         "pressure": 234,
-        //         "humidity": 120,
-        //         "clouds": 21,
-        //         "feels_like": 21,
-        //         "weather": [{
-        //             "icon": 12,
-        //             "main": "Rainy",
-        //             "Description": "A very rainy",
-        //         }],
-        //     },
-        // }
         return the_response;
     }
 
@@ -212,13 +213,25 @@ window.onload = function (){
             divs.no_connection.classList.add('hidden');
         }
     }
+
+    let display_not_found_msg = function () {
+        if(divs.not_found.classList.contains('hidden')){
+            divs.not_found.classList.remove('hidden');
+        }
+    }
+    
+    let hide_not_found_msg = function () {
+        if(!divs.not_found.classList.contains('hidden')){
+            divs.not_found.classList.add('hidden');
+        }
+    }
     
     let date_div = function get_date(){
         //This function displays the date on the header
         let [month, date, year] = ( new Date(Date.now()) ).toLocaleDateString().split("/");
         let [hour, minute, second] = ( new Date(Date.now()) ).toLocaleTimeString().slice(0,7).split(":");
-        let date_info = "<p>" + hour + "hr : " + minute + "min : " + second + "sec</p>";
-        date_info += "<p>" + date + "/" + month + "/" + year + "</p>";
+        let date_info = "<p>" + hour + "hr : " + minute + "min : " + second + "sec<br/>";
+        date_info += date + "/" + month + "/" + year + "</p>";
         document.getElementById('smash_date').innerHTML = date_info;
     }
     setInterval(date_div, 1000);
@@ -247,7 +260,7 @@ window.onload = function (){
     let retrieve_from_storage = function (){
         //returns an object that contains forecasts retrieved from local storage
         let returned_data = new Object();
-        Array.from(['today_1', 'today_2', 'today_3', 'today_4', 'today_5', 'today_6', 'today_7', 'today_8', 'today', 'retrieved_time'])
+        Array.from(['today_2', 'today_3', 'today_4', 'today_5', 'today_6', 'today_7', 'today_8', 'today', 'retrieved_time'])
         .forEach(function(value, index, array){
             returned_data[value] = localStorage.getItem(value);
         });
@@ -306,6 +319,10 @@ window.onload = function (){
         let today_name_node = document.querySelector('#country_name_today');
         if(localStorage){
             weatherData = retrieve_from_storage()
+            let names = ['today_2', 'today_3', 'today_4', 'today_5', 'today_6', 'today_7', 'today_8'];
+            document.querySelector("#smash_prev").querySelectorAll(".smash_box").forEach(function(value, index, array){
+                show_full(weatherData[names[index]], value);
+            });
             show_full(weatherData.today)
             .then(function(){
                 if(divs.smash_today_box.classList.contains('hidden')) divs.smash_today_box.classList.remove('hidden');
@@ -313,6 +330,37 @@ window.onload = function (){
             });
         }
     }
+
+    document.querySelectorAll(".smash_btn").forEach(function(value){
+        value.addEventListener("click", function(){
+            let action = this.getAttribute("data-action");
+            let node_boxes = document.querySelectorAll(".smash_box");
+            let curr_index = 0;     //index of current div
+            let next_index = 0;    //index of div to be displayed (changed later on)
+            let anime ="";          //The animation to be added to the div on click
+            node_boxes.forEach(function(value, index){
+                if(value.classList.contains("active")){
+                    curr_index = index;
+                }
+            });
+            if(action === "previous"){
+                next_index = curr_index - 1;
+                anime = "left-anime";
+            }else{
+                next_index = curr_index + 1;
+                anime = "right-anime";
+            }
+            if(next_index<node_boxes.length && next_index>-1){
+                node_boxes[curr_index].classList.replace("active", "hidden");
+                node_boxes[next_index].classList.replace("hidden", "active");
+                node_boxes[next_index].classList.remove("left-anime");
+                node_boxes[next_index].classList.remove("right-anime");
+                node_boxes[next_index].classList.add(anime);
+            }else{
+                value.setAttribute("disable", true);
+            }
+        });
+    });
     
     let change_ipinfo = async function(){
         animate_click();
@@ -364,7 +412,7 @@ window.onload = function (){
                 //if data exists, the if statement checks if it is up-to-date: condition is that last update time must be lower than
                 let saved_date = (new Date(Number(weatherData.retrieved_time)));
                 
-                if ((new Date().getHours() - saved_date.getHours()) > 2 || saved_date.getDate() !== (new Date().getDate())){
+                if ((new Date().getHours() - saved_date.getHours()) > 3 || saved_date.getDate() !== (new Date().getDate())){
                     animate_click();
                     //alert('good');
                     load_into_storage().then(done => {
@@ -401,40 +449,6 @@ window.onload = function (){
     }).finally(function(){
         deanimate_click();
     });
-    
-    document.getElementById('prev-forecast').addEventListener('click', function(){
-        
-        load_prev_data()
-        .then(deanimate_click())
-        .catch(error => {
-            /*Something went wrong in the load_prev_data (maybe show_full) function, most likely 
-            the resource could not be reached due to internet connectivity issue*/
-            display_error_in_connection_msg();
-        }).finally(function(){
-            deanimate_click();
-            deactivate_nav();
-            document.querySelector('#prev-forecast').classList.add('active');
-        });
-    });
-    
-    let load_prev_data = async function(){
-        animate_click();
-        //this function is fired when the previous forecast button is pressed. it loads the previous forecast section.
-        if(localStorage){
-            let names = ['today_1', 'today_2', 'today_3', 'today_4', 'today_5', 'today_6', 'today_7', 'today_8'];
-            weatherData = retrieve_from_storage()
-            document.querySelector("#smash_prev").querySelectorAll(".smash_box").forEach(function(value, index, array){
-                show_full(weatherData[names[index]], value);
-            });
-        } 
-       if(contains(divs.main_div, 'hidden')) divs.main_div.classList.remove('hidden');
-       if(!contains(divs.about_div, 'hidden')) divs.about_div.classList.add('hidden');
-       if(!contains(divs.contact_div, 'hidden')) divs.contact_div.classList.add('hidden');
-       if(!contains(divs.fill_node, 'hidden')) divs.fill_node.classList.add('hidden');
-       if(!contains(divs.smash_today, 'hidden') || contains(divs.main_div, 'hidden')){
-           my_toggle('hidden', [divs.smash_prev, divs.smash_today]);
-       } 
-    }
         
     let country_obj = async function () {
         /*An object that processes response from query_country(rest countries API) and returns 
@@ -458,112 +472,100 @@ window.onload = function (){
         console.log(err);
         }
     }();
-    
-    let gen_list = function (text, field) {
-        if(contains(divs.search_list, 'hidden')) divs.search_list.classList.remove('hidden');
-        let value = text.toLowerCase();    //user input converted to lower case
-        country_obj.then(result => {
-            let keys = result.keys_array;    //array that contains name of country
-            let generated_list = '';    //initiator that will contain returned matches of country
-            divs.search_list.innerHTML = "<p class='search-item-demo'>--Click to select--</p>";
-            for(let x=0; x<keys.length; x++){
-                if((keys[x].toLowerCase().search(value)) !== -1){
-                    generated_list += "<p class='search-item'>" + keys[x] + "</p>";
-                }
-            }
-            if(generated_list){
-                divs.search_list.innerHTML += generated_list;
-            }else{
-                //if generated list is still an empty string then no match was found
-                divs.search_list.innerHTML += "<p class='search-item'>Nothing found</p>";
-            }
-            
-            document.querySelectorAll('.search-item').forEach(item => {
-                item.addEventListener('click', async function(){
-                    animate_click();
-                    let spinner = document.querySelector('#spinner');
-                    //if(spinner.classList.contains('hidden')) spinner.classList.remove('hidden');
-                    if(!contains(divs.search_list, 'hidden')) divs.search_list.classList.add('hidden');
-                    field.value = this.innerHTML;    //Replace text in the search field with the text in the clicked option
-                    let look_up = this.innerHTML.replace(' ', '').toLowerCase();
-                    let url = `http://api.openweathermap.org/data/2.5/weather?q=${look_up}&appid=f16f5069fd7086051ded89bf67c0c6e5`; 
-                    handle_response(url).then(res => {
-                        //alert(res);
-                        let request_data = document.querySelector('#request-info');
-                        let request_name_node = document.querySelector('#country_name_request');
-                        //alert(request_data);
-                        request_data.innerHTML = '';        //Clear previous searches
-                        show_full(res, request_name_node, request_data);    //run show_full with the returned response
-                        if(!contains(divs.main_div, 'hidden')) divs.main_div.classList.add('hidden');
-                        if(!contains(divs.contact_div, 'hidden')) divs.contact_div.classList.add('hidden');
-                        if(!contains(divs.about_div, 'hidden')) divs.about_div.classList.add('hidden');
-                        if(contains(divs.fill_node, 'hidden')) divs.fill_node.classList.remove('hidden');
-                        if(!contains(divs.fill_node, 'anime')) divs.fill_node.classList.add('anime');
-                        //if(!spinner.classList.contains('hidden')) spinner.classList.add('hidden');
-                        deactivate_nav();
-                        deanimate_click();
-                    }).catch(err => {
-                        display_error_in_connection_msg();
-                        deanimate_click();
-                    }).finally(function(){
-                        deanimate_click();
-                        //if(!spinner.classList.contains('hidden')) spinner.classList.add('hidden');
-                       
-                    });
-                    
+    let process_search = function(look_up, field){
+        animate_click();
+        field.disabled = true;
+        let url = `http://api.openweathermap.org/data/2.5/weather?q=${look_up}&appid=f16f5069fd7086051ded89bf67c0c6e5`; 
+            handle_response(url).then(res => {
+                let smash_next = document.querySelector('#request-info');
+                document.querySelector('#country_name_request').textContent = look_up;
+                let smash_boxes = document.querySelector("#smash_boxes");
+                //Format response and make it ready for display
+                let key = "";
+                smash_next.querySelectorAll(".details-basic").forEach(function(value,index,array){
+                    key = value.querySelector(".details-content").getAttribute("data-name");
+                    if(key === "clouds"){
+                        value.querySelector(".details-content").textContent = res.clouds.all;
+                    }else{
+                        value.querySelector(".details-content").textContent = res.main[key];
+                    }
                 });
+                smash_next.querySelector(".details-weather")
+                .querySelectorAll(".details-content").forEach(function(value, index, array){
+                    key = value.getAttribute("data-name");
+                    value.textContent = res.weather[0][key];
+                });
+                let icon_url = `http://openweathermap.org/img/wn/${res.weather[0].icon}@2x.png`;
+                smash_next.querySelector(".details-weather").querySelector("img").setAttribute("src", icon_url);
+                if(!contains(smash_boxes, 'hidden')) smash_boxes.classList.add('hidden');
+                if(contains(divs.fill_node, 'hidden')) divs.fill_node.classList.remove('hidden');
+                if(!contains(divs.fill_node, 'left-anime')) divs.fill_node.classList.add('left-anime');
+                deactivate_nav();
+            }).catch(err => {
+                display_not_found_msg();
+            }).finally(function(){
+                field.value = "";
+                field.disabled = false;
+                deanimate_click();
+                //if(!spinner.classList.contains('hidden')) spinner.classList.add('hidden');
+                
             });
-        });
     }
+    document.querySelector("#back_btn").addEventListener("click", function(){
+        let smash_boxes = document.querySelector("#smash_boxes");
+        if(contains(smash_boxes, 'hidden')) smash_boxes.classList.remove('hidden');
+        if(!contains(divs.fill_node, 'hidden')) divs.fill_node.classList.add('hidden');
+        if(!contains(smash_boxes, 'left-anime')) smash_boxes.classList.add('left-anime');
+        hide_not_found_msg();
+        deactivate_nav();
+    });
+
+    document.querySelector("#search-form").addEventListener("submit", function(e){
+        e.preventDefault();
+    });
     
-    divs.search_field.addEventListener('keyup', function(){
+    divs.search_field.addEventListener('keyup', function(e){
+        e.preventDefault();
+        hide_not_found_msg();
         if(divs.schedule_check) clearTimeout(divs.schedule_check);
-        if(!contains(divs.search_list, 'hidden')) divs.search_list.classList.add('hidden');
         if(this.value){
-            divs.schedule_check = setTimeout(gen_list, 1000, this.value, this);
-        }
-        
+            divs.schedule_check = setTimeout(process_search, 5000, this.value, this);
+        } 
     });
     
-    document.getElementById('home').addEventListener('click', function(){
-        if(contains(divs.main_div, 'hidden')) divs.main_div.classList.remove('hidden');
-        if(!contains(divs.about_div, 'hidden')) divs.about_div.classList.add('hidden');
-        if(!contains(divs.contact_div, 'hidden')) divs.contact_div.classList.add('hidden');
-        if(!contains(divs.fill_node, 'hidden')) divs.fill_node.classList.add('hidden');
-                        
-        if(!divs.valid){
-            if(divs.out_of_date.classList.contains('hidden')) divs.out_of_date.classList.remove('hidden');  
-        }
+    // document.getElementById('home').addEventListener('click', function(){
+    //     document.getElementById("smash_boxes").focus({preventScroll: false});
+    //     if(!contains(divs.fill_node, 'hidden')) divs.fill_node.classList.add('hidden');            
+    //     if(!divs.valid){
+    //         if(divs.out_of_date.classList.contains('hidden')) divs.out_of_date.classList.remove('hidden');  
+    //     }
+    //     if(!contains(divs.smash_today, 'left-anime')) divs.smash_today.classList.add('left-anime');
+    //     deactivate_nav();
+    //     this.classList.add('active');
+    // });
+
+    // document.getElementById('home').addEventListener('focus', function(){
+    //     let head_offset = document.querySelector("header").offsetTop + this.offsetTop;
         
-        if(divs.smash_today.classList.contains('hidden')){
-            my_toggle('hidden', [divs.smash_prev, divs.smash_today]);
-            if(!contains(divs.smash_today, 'anime')) divs.smash_today.classList.add('anime');
-        }
-        deactivate_nav();
-        this.classList.add('active');
-    });
+    //     this.style.offset = `${head_offset}px 0px`;
+    // });
     
-    document.querySelector('#about-us').addEventListener('click', function(){
-        if(!contains(divs.main_div, 'hidden')) divs.main_div.classList.add('hidden');
-        if(!contains(divs.contact_div, 'hidden')) divs.contact_div.classList.add('hidden');
-        if(contains(divs.about_div, 'hidden')) divs.about_div.classList.remove('hidden');
-        if(!contains(divs.fill_node, 'hidden')) divs.fill_node.classList.add('hidden');
-        if(!contains(divs.about_div, 'anime')) divs.about_div.classList.add('anime');
-        deactivate_nav();
-        this.classList.add('active');
+    // document.querySelector('#about-us').addEventListener('click', function(){
+    //     document.getElementById("smash_about").focus({preventScroll: false});
+    //     if(!contains(divs.fill_node, 'hidden')) divs.fill_node.classList.add('hidden');
+    //     if(!contains(divs.about_div, 'left-anime')) divs.about_div.classList.add('left-anime');
+    //     deactivate_nav();
+    //     this.classList.add('active');
         
-    });
+    // });
     
-    document.querySelector('#contact-us').addEventListener('click', function(){
-        if(!contains(divs.main_div, 'hidden')) divs.main_div.classList.add('hidden');
-        if(!contains(divs.about_div, 'hidden')) divs.about_div.classList.add('hidden');
-        if(contains(divs.contact_div, 'hidden')) divs.contact_div.classList.remove('hidden');
-        if(!contains(divs.contact_div, 'anime')) divs.contact_div.classList.add('anime');
-        if(!contains(divs.fill_node, 'hidden')) divs.fill_node.classList.add('hidden');
-        deactivate_nav();
-        this.classList.add('active');
-        
-    });
+    // document.querySelector('#contact-us').addEventListener('click', function(){
+    //     document.getElementById("smash_contact").focus({preventScroll: false});
+    //     if(!contains(divs.contact_div, 'left-anime')) divs.contact_div.classList.add('left-anime');
+    //     if(!contains(divs.fill_node, 'hidden')) divs.fill_node.classList.add('hidden');
+    //     deactivate_nav();
+    //     this.classList.add('active');
+    // });
     
     document.querySelector('body').addEventListener('click', function(){
         //Hide the generated search list and remove animation on search field on body click
