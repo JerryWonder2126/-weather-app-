@@ -1,5 +1,8 @@
+*, body{
+    padding: 0;
+    margin: 0;
+}
 body{
-    color: white;
     font-family: "Xanh Mono";
     background: url('../extras/main1.jpg') no-repeat fixed;
     -moz-background-size: cover;
@@ -8,305 +11,6 @@ body{
     background-blend-mode: luminosity;
     background-size: cover;
 }
-/*
-.others{
-    min-height: calc(100vh - 70px);
-}
-
-header{
-    width: 100vw;
-    background-color: rgba(20,20,50, 0.6);
-    border-radius: 2px;
-    margin: -1em;
-    margin-bottom: 2em;
-    position: sticky;
-    top: 0;
-    z-index: 3;
-}
-
-h1{
-    display: inline;
-    font-family: Modak;
-    margin-top: 30px;
-    font-size: 4em;
-}
-
-#smash_date{
-    text-align: right;
-    margin-right: 50px;
-    font-weight: 600;
-}
-
-abbr{
-    color:white;
-}
-
-a{
-    text-decoration: none;
-}
-
-.header{
-    display: flexbox;
-}
-
-.site_logo{
-    background-color: black;
-    padding: 20px;
-}
-
-nav ul{
-    background-color: black;
-    list-style-type: none;
-}
-
-nav ul li{
-    min-width: 100px;
-    display: inline;
-}
-
-.nav_item:hover{
-    outline: unset !important;
-}
-
-nav .active{
-    border-bottom: 4px white dotted;
-    font-size: 20px;
-}
-
-section{
-    width: 100%;
-    display: block;
-}
-
-.hidden{
-    display: none;
-}
-
-.msg{
-    margin-left: 10%;
-    width: 80%;
-    color: #EE0033B7;
-    background-color: rgba(0, 0, 0, 0.6);
-    font-weight: 800;
-    font-size: 1.2em;
-    text-align: center;
-    padding: 5px;
-    border-radius: 10px;
-}
-
-#refresh-button{
-    display: none;
-    float: right;
-    padding: 10px;
-    border: 3px white outset;
-    border-radius: 10px;
-    font-size: 18px;
-    font-weight: 600;
-    color: #130044;
-}
-
-#refresh-button:hover{
-    border: 3px #AAAAAA inset;
-    color: #000066;
-    background-color: #AAAAAA;
-    outline: none !important;
-}
-
-#progress{
-    position: absolute;
-    top: 200px;
-    left: 250px;
-    width: 300px;
-    padding: 10px;
-    background-color: pink;
-    color: green;
-    border-radius: 5px;
-}
-
-.nav_item{
-    border: none;
-    color: white;
-    background-color: unset !important;
-    outline: unset !important;
-    font-size: 18px;
-    font-weight: 900;
-    padding-bottom: 3px;
-    margin-bottom: 10px;
-}
-
-#search-info{
-    color: #FFFFFF;
-    font-weight:900;
-    width: 58%;
-}
-
-#search-text{
-    width: 90%;
-    height: 45px;
-    font-size: 16px;
-    color: #130044;
-    padding-left: 10px;
-    border: 4px rgba(20,20,50, 0.8) solid;
-    border-radius: 20px;
-    outline: unset !important;
-    background-color: rgba(255, 255, 255, 0.8);
-}*/
-
-/*Formatting for search function*/
-/*#search-list{
-    z-index: 1;
-    position: absolute;
-    overflow: scroll;
-    max-height: 50%;
-    width: 35%;
-    padding: 10px;
-    border: 2px rgba(20,20,50, 0.8) solid;
-    border-radius: 20px;
-    background-color: rgba(255, 255, 255, 0.8);
-    
-}
-.search-item:hover{
-    border-radius: 10px;
-    color: white;
-    background-color: #130044;
-}
-.search-item-demo, .search-item{
-    margin: unset !important;
-    padding-top: 4px;
-    padding-bottom: 4px;
-    border-bottom: 2px #130044 solid;      
-    text-align: center;
-    color: #130044;
-}
-
-footer{
-    text-align:center;
-    padding: 10px;
-    width: 100%;
-    margin: -1em;
-}
-
-footer ul{
-    list-style-type: none;
-}
-
-#spinner {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    margin: -75px 0 0 -75px;
-}*/
-/*Define loader*/
-/*#loader {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  z-index: 1;
-  margin: -75px 0 0 -75px;
-  border: 9px solid #f3f3f3;
-  border-radius: 50%;
-  border-top: 9px solid rgb(2,2,2);
-  width: 100px;
-  height: 100px;
-  -webkit-animation: spin 2s linear infinite;
-  animation: spin 2s linear infinite;
-}
-
-@-webkit-keyframes spin {
-  0% { -webkit-transform: rotate(0deg); }
-  100% { -webkit-transform: rotate(360deg); }
-}
-
-@keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
-}*/
-/*
-
-.clear{
-  -webkit-animation-name: clear-animate;
-  -webkit-animation-duration: 5s;
-  animation-name: clear-animate;
-  animation-duration: 5s;
-}
-
-@-webkit-keyframes clear-animate{
-    0% {filter: brightness(40%);}
-    100% {filter: brightness(100%);}
-}
-
-@keyframes clear-animate{
-    0% {filter: brightness(40%);}
-    100% {filter: brightness(100%);}
-}
-
-.loading-text{
-  -webkit-animation: load-text 2s linear infinite;
-  animation: load-text 2s linear infinite;
-}
-
-@-webkit-keyframes load-text{
-    0% {border: 4px rgb(255, 255, 255) solid;}
-    100% {border: 4px rgba(20,20,50, 0.8) solid;}
-}
-
-@keyframes load-text{
-    0% {border: 4px rgb(255, 255, 255) solid;}
-    100% {border: 4px rgba(20,20,50, 0.8) solid;}
-}
-
-.loading-success{
-  -webkit-animation-name: load-success;
-  -webkit-animation-duration: 3s;
-  animation-name: load-success;
-  animation-duration: 3s;
-}
-
-@-webkit-keyframes load-success{
-    0% {border: 4px rgb(255, 255, 255) solid;}
-    100% {border: 4px rgb(0,255,0) solid;}
-}
-
-@keyframes load-success{
-    0% {border: 4px rgb(255, 255, 255) solid;}
-    100% {border: 4px rgb(0,255,0) solid;}
-}
-
-.loading-failed{
-  -webkit-animation-name: load-failed;
-  -webkit-animation-duration: 3s;
-  animation-name: load-failed;
-  animation-duration: 3s;
-}
-
-@-webkit-keyframes text-invalid{
-    0% {border: 4px rgb(255, 255, 255) solid;}
-    100% {border: 4px rgb(255,0,0) solid;}
-}
-
-@keyframes text-invalid{
-    0% {border: 4px rgb(255, 255, 255) solid;}
-    100% {border: 4px rgb(255,0,0) solid;}
-}
-
-.dim{
-  -webkit-animation-name: dim-animate;
-  -webkit-animation-duration: 2s;
-  animation-name: dim-animate;
-  animation-duration: 2s;
-  filter: brightness(30%);
-}
-
-@-webkit-keyframes dim-animate{
-    0% {filter: brightness(90%);}
-    100% {filter: brightness(30%);}
-}
-
-@keyframes dim-animate{
-    0% {filter: brightness(90%);}
-    100% {filter: brightness(30%);}
-}
- */
 
 .hidden{
     display: none;
@@ -326,97 +30,50 @@ footer ul{
     padding: 1em;
     border-radius: 20px;
 }
-.container{
-    display: flex;
-    flex-flow: column;
-}
 header{
-    display: flex;
-    flex-direction: column;
     /* background-color: rgba(20,20,50, 0.6); */
     background-color: rgba(20,20,50);
     border-radius: 2px;
-    padding: 0 1em;
-    margin: -0.5em;
-    margin-bottom: 1.5em;
-    position: sticky;
     top: 0;
-    z-index: 3;
+    position: sticky;
+    z-index: 1;
 }
 .head_wrapper{
     display: flex;
     flex-direction: row;
     justify-content: space-between;
 }
-#smash_date{
+.smash_date_div{
     align-self: flex-start;
-    text-align: center;
+    text-align: right;
     font-weight: 600;
     font-style: italic;
 }
 #search-box-wrapper{
     display: flex;
     justify-content: flex-end;
-    margin-bottom: 1em;
+    margin-top: 1em;
 }
 #search-info{
     color: #FFFFFF;
     font-weight:900;
     width: 58%;
 }
-
-#search-text{
-    width: 40vw;
-    height: 45px;
-    font-size: 16px;
+.search-input-text{
+    width: max-content;
     color: #130044;
-    padding-left: 10px;
     border: 4px rgba(20,20,50, 0.8) solid;
     border-radius: 20px;
     outline: unset !important;
     background-color: rgba(255, 255, 255, 0.8);
-}
-
-/*Formatting for search function*/
-#search-list{
-    z-index: 1;
-    position: absolute;
-    overflow: scroll;
-    max-height: 50vh;
-    width: 40vw;
-    margin-top: 60px;
-    padding: 10px;
-    border: 2px rgba(20,20,50, 0.8) solid;
-    border-radius: 20px;
-    background-color: rgba(255, 255, 255, 0.8);
-    
-}
-.search-item:hover{
-    border-radius: 10px;
-    color: white;
-    background-color: #130044;
-}
-.search-item-demo, .search-item{
-    margin: unset !important;
-    padding-top: 4px;
-    padding-bottom: 4px;
-    border-bottom: 2px #130044 solid;      
-    text-align: center;
-    color: #130044;
-}
-main{
-    display: flex;
-    flex-direction: column;
 }
 .mid-main{
     display: flex;
     flex-direction: row;
 }
 .smash_box, #request-info{
-    width: 90%;
     max-width: 900px;
     border-radius: 20px;
-    margin: 0 auto 0 auto;
     margin-bottom: 20px;
     padding: 10px;
     text-overflow: auto;
@@ -427,27 +84,10 @@ main{
     margin: 0 auto 0 auto;
     padding-bottom: 1em;
 }
-#smash_about{
-    display: flex;
-    flex-direction: column;
-}
-#smash_about img{
+.logo-img {
     width: 40%;
-    float: left;
-    margin: 10px 10px 0px 0px;
-    border-radius: 5px;
-}
-#smash_about p{
-    text-align: justify;
 }
 /* formatting for contact form */
-#smash_contact{
-    display: flex;
-    flex-direction: column;
-    align-self: center;
-    width: 100vw;
-    max-width: 900px;
-}
 h2{
     font-family: Lobster;
     font-weight: 200;
@@ -461,6 +101,14 @@ h2{
 #smash_about h2{
     margin-top: unset;
 }
+.smash-about-section{
+    background-color: rgba(20, 20, 50, 0.836);
+}
+.display-img{
+    width: 40%;
+    border-radius: 20px;
+    padding: 0.5rem 0.5rem 0.5rem 0;
+}
 input[type=text]:focus, input[type=email]:focus, textarea:focus{
     -webkit-animation: load-text 2s linear infinite;
     animation: load-text 2s linear infinite;
@@ -470,38 +118,25 @@ input:invalid{
     animation: text-invalid 2s linear infinite;
 }
 input[type=submit]{
-    float: right;
-    padding: 10px 30px 10px 30px;
-    border-radius: 20px;
+    border-radius: 10px;
     outline: unset !important;
     font-weight: 800;
     color: #130044;
     font-size: 16px;
 }
-#contact-form-wrapper{
-    font-weight: 800;
-    margin-bottom: 1em;
-}
-.contact-field-wrapper{
-    margin: 10px;
-}
-.contact-field-label{
-    width: 20%;
-    float: left;
-    text-align: right;
-    margin-right: 20px;
-    line-height: 50px; 
-}
 .contact-field{
-    width: 70%;
-    height: 45px;
-    font-size: 16px;
     color: #130044;
-    padding-left: 10px;
-    border: 4px rgba(20,20,50, 0.8) solid;
+    /* border: 4px rgba(20,20,50, 0.8) solid; */
     border-radius: 20px;
     outline: unset !important;
     background-color: rgba(255, 255, 255, 0.8);
+}
+.form-label-text{
+    color: rgba(255, 255, 255, 0.8);
+    border-radius: 20px;
+    outline: unset !important;
+    background-color: rgba(20,20,50, 0.8);
+    font-size: 1.2em;
 }
 #contact-msg{
     height: 300px;
