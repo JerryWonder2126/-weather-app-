@@ -17,10 +17,6 @@
     .smash_btn_wrapper button, input[type=submit]{
         width: 200px;
     }
-    #smash_about{
-        flex-grow: 1;
-        max-width: 35vw;
-    }
     /*Formatting for forecasts gotten from API*/
 
     .details-header{
@@ -54,31 +50,4 @@
     .details-title{
         font-weight: 600;
     }
-    /*
-    nav{
-        width: 60vw;
-    }/*
-    nav ul li{
-        list-style-type: none;
-        margin-right: 10px;
-        display: inline; 
-        white-space: nowrap;      
-    } */
-    /* #search-box-wrapper{
-        width: 40%;
-        padding-right: 60%;
-        padding-bottom: 20px;
-    }
-    #contact-form-wrapper{
-        width: 700px;
-    }
-    #smash_about{
-        width: 100%;
-        text-align: justify;
-        line-height: 30px;
-        color: white;
-        margin-bottom: 10px;
-    }
-    
-     */
 }

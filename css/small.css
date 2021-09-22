@@ -1,32 +1,14 @@
 @media only screen and (max-width: 481px), only screen and (max-device-width: 481px) {
-    .site_logo img{
-        width: 100px;
-        padding: 1em 0;
+    header{
+        padding: 0;
+        margin: 0;
     }
-    .mid-main{
-        flex-direction: column;
-        justify-content: space-around;
+    .logo-img {
+        width: 25%;
+        display: inline;
     }
     #smash_about img{
         width: 50%;
-    }
-    .contact-field-wrapper{
-        margin: 1em;
-    }
-    .contact-field{
-        width: 90%;
-    }
-    .contact-field-label{
-        float: left;
-        text-align: start;
-        margin-right: 1em;
-        line-height: 20px; 
-    }
-    input[type=submit]{
-        margin-right: 2em;
-    }
-    #search-list{
-        width: 45%;
     }
     .smash_box, #request-info{
         text-align: start;        
@@ -36,7 +18,7 @@
         flex-direction: column-reverse;
         margin-bottom: 1em;
     }
-    .smash_btn_wrapper button, input[type=submit]{
+    .smash_btn_wrapper button{
         width: 120px;
     }
     /*Formatting for forecasts gotten from API*/
@@ -56,33 +38,5 @@
         margin: -40px -40px -40px -20px;
         display: inline;
     }
-    /*
-    #smash_date{
-        padding: 10px;
-        margin-right: 5px;
-    }
-    /* nav{
-        display: inline;
-    }
-    nav ul li{
-        list-style-type: none;
-        margin-right: 10px;
-        display: inline; 
-        white-space: nowrap; 
-        margin-right: 10px;
-        background-color: #130044;
-        border-radius: 10px;
-    } 
-    
-    #smash_today{
-    }
-    
-    #smash_about{
-        margin: 0 auto;
-    }
-    
-    #smash_about_note{
-        display: block;
-    } */
     
 }
