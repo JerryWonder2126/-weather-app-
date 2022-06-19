@@ -24,9 +24,9 @@
 					</button>
 					<div class="collapse navbar-collapse" id="navbarText">
 						<nav class="navbar-nav mr-auto">
-							<a class="nav-link active" href="#">View Forecast</a>
-							<a class="nav-link" href="#about-section">About Me</a>
-							<a class="nav-link" href="#contact-section">Contact Me</a>
+							<a class="nav-link nav-forecast" href="#">View Forecast</a>
+							<a class="nav-link nav-about" href="#about-section">About</a>
+							<a class="nav-link nav-contact" href="#contact-section">Contact</a>
 							<!-- <a class="nav-link disabled" href="#">Disabled</a> -->
 						</nav>
 					</div>
@@ -41,10 +41,10 @@
 				</nav>
 			</header>
 			<div class="container-fluid">
-				<div class="row justify-content-center align-items-center">
-					<div class="col smash-slides">
+				<div class="row" id="slides-section">
+					<div class="col d-flex justify-content-center align-items-center">
 						<main>
-							<div class="carousel slide" data-ride="carousel">
+							<div class="carousel slide" id="smash-slides" data-ride="carousel">
 								<ol class="carousel-indicators"><!-- content will be loaded from script on page load --></ol>
 								<div class="carousel-inner"><!-- content will be loaded from script on page load --></div>
 									<a class="carousel-control-prev" href="#smash-slides" role="button" data-slide="prev">
@@ -102,82 +102,53 @@
 						</main>
 					</div>
 				</div>
-				<div class="row smash-about-section" id="about-section">
-					<div class="col-12">
+				<div class="row align-items-center smash-about-section" id="about-section">
+					<div class="col-12 d-block d-md-none">
 						<h2 class="">About WatchOut</h2>
 					</div>
 					<div class="col-12 col-md-6 col-lg-5 display-img">
 						<img class="img-fluid" src="/extras/smash owner.jpg"/>
 					</div>
 					<div class="col-12 col-md-6 col-lg-7">
-						<p class="text-light text-justify d-block smash_about_note">
-							Sylvester Presley, the owner of smash it. This app was created to help you 
-							with weather forecast for our upcoming programmes.
-							<span type="button" id="about-toggler" class="toggler" data-toggle="collapse" data-target="#extra-about-text" aria-expanded="false" aria-controls="extra-about-text">
-								show more...
-							</span>
-							<span id="extra-about-text" class="text-light text-justify collapse">
-								I am Jeremiah. An average heighted and cheerful guy with dark skin and bright eyes. A lover of fried rice simply because it's not really hard to cook, 
-								it is tasty, contains vegetables and quite green.I was born in Lagos, Nigeria, where I finished my 
-								primary and secondary education. I moved on to Ibadan for my tertiary education, which I'm still doing 
-								till date and I have no work experience yet. I am Jeremiah. An average heighted and cheerful guy with 
-								dark skin and bright eyes. A lover of fried rice simply because it's not really hard to cook, it is tasty, 
-								ontains vegetables and quite green. I was born in Lagos, Nigeria, where I finished my primary 
-								and secondary education. I moved on to Ibadan for my tertiary education, which I'm still doing 
-								till date and I have no work experience yet.Sylvester Presley, the owner of smash it. This app was created to help you 
-								with weather forecast for our upcoming programmes.I am Jeremiah. An average heighted and cheerful 
-								guy with dark skin and bright eyes.
-								<span type="button" class="toggler" id="about-toggler" data-toggle="collapse" data-target="#extra-about-text" aria-expanded="false" aria-controls="extra-about-text">
-									show less...
-								</span>
-							</span>
+						<h2 class="d-none d-md-block">About WatchOut</h2>
+						<p class="text-light text-justify main-about-text">
+							WatchOut is a simple website built to help anyone in the world get information on what the weather
+							condition in his/her area will look like. Thanks to OpenWeatherAPI, you can easily access up to 7 days of
+							weather forecast data here on WatchOut. <br><br>You want to go visit an area and you want to know what the weather condition is like there?
+							Simply use the search box on the header.<br><br>Want to know about me?😎
+							<span class="toggler" data-location="main-about-text" aria-expanded="false">show more...</span>
 						</p>
-						
+						<p class="text-light text-justify extra-about-text">
+							I am Jeremiah Joseph, a fullstack web developer. I started my web development journey recently (early 2019) and I have been
+							working on projects like this one to better hone my skills but unlike the others, I'm deploying this to a live server.
+							I have foundational knowledge with Python, Node, SQL, JavaScript, Bootstrap & Jquery, but still looking forward to learning Agile, 
+							React and testing too. So, I am kind of like a junior fullstack developer. I look forward to writing great projects and 
+							working with a software company someday, already on the hunt.
+							<br><br>
+							I hope you love this and I'll love to get feedbacks from you. Kindly go to the <a class="social-connect" href="#contact-section">contact section</a> and hit me with your feedbacks.
+							You can also connect with me on 
+							<a href="#" class="social-connect" target="_blank">facebook</a>,
+							<a href="#" class="social-connect" target="_blank">twitter</a>,
+							<a href="#" class="social-connect" target="_blank">whatsapp</a>, or
+							<a href="#" class="social-connect" target="_blank">LinkedIn.</a><br><br>
+							<span class="toggler" data-location="extra-about-text" aria-expanded="false">show less...</span>
+						</p>
 					</div>
 				</div>
-				<div class="row smash_contact" id="contact-section">
-					<div class="col-12">
-						<h2 class="">Contact Me</h2>
-					</div>
-					<div class="col-12">
-						<form id="contact-form">
-							<div>
-								<div class="p-3 my-3 form-field">
-									<label for="contact-email">Email</label>
-									<input id="contact-email" class="form-control contact-field" name="contact-email" type="email" placeholder="Please enter a working email address" required/>
-								</div>
-								<div class="p-3 my-3 form-field">
-									<label for="contact-msg">Message</label>
-									<textarea id="contact-msg" minlength="500" cols="10" maxlength="3000" class="form-control contact-field" name="contact-msg" placeholder="Feel free to say what's in your mind" required></textarea>
-								</div>
-								<div class="d-flex justify-content-end">
-									<input type="submit" class="py-2 px-5" value="Send" id="contact-submit"/>
-								</div>
-								<!-- <div class="col-12">
-									<div class="form-group">
-										<label class="sr-only" for="inlineFormInputGroup">Email</label>
-										<div class="input-group mb-2">
-											<div class="input-group-prepend">
-											<div class="input-group-text p-3 form-label-text">Email</div>
-											</div>
-										<input id="contact-email" class="form-control contact-field" name="contact-email" type="email" placeholder="Please enter a working email address" required/>
-									</div>
-								</div>
-								<div class="col-12">
-									<div class="form-group">
-										<label class="sr-only" for="inlineFormInputGroup">Your message</label>
-										<div class="input-group mb-2">
-											<div class="input-group-prepend">
-											<div class="input-group-text p-3 form-label-text">Message</div>
-											</div>
-										<textarea id="contact-msg" minlength="500" cols="10" maxlength="3000" class="form-control contact-field" name="contact-msg" placeholder="Feel free to say what's in your mind" required></textarea>
-									</div>
-								</div>
-								<div class="col-12">
-									<div class="form-group d-flex justify-content-end">
-										<input type="submit" class="py-2 px-5" value="Send" id="contact-submit"/>
-									</div>
-								</div> -->
+				<div class="row justify-content-center align-items-center" id="contact-section">
+					<div id="contact-form" class="col-12">
+						<h2 class="mb-5">Contact Me</h2>
+						<form>
+							<div class="p-3 my-3 form-field">
+								<label for="contact-email">Email</label>
+								<input id="contact-email" class="form-control contact-field" name="contact-email" type="email" placeholder="Please enter a working email address" required/>
+							</div>
+							<div class="p-3 my-3 form-field">
+								<label for="contact-msg">Message</label>
+								<textarea id="contact-msg" minlength="50" cols="10" maxlength="3000" class="form-control contact-field" name="contact-msg" placeholder="Feel free to say what's on your mind" required></textarea>
+							</div>
+							<div class="d-flex justify-content-end">
+								<input type="submit" class="py-2 px-5 btn" value="Send" id="contact-submit"/>
 							</div>
 						</form>
 					</div>
@@ -201,6 +172,12 @@
 				<footer>
 					<div id="smash_credits text-white">
 						<p>WatchOut &copy 2020</p>
+					</div>
+					<div class="social-icons">
+						<a href="#"><img src="/extras/github.png" class="social-icon" alt="DevWonder github profile"></a>
+						<a href="#"><img src="/extras/linkedin.png" class="social-icon" alt="DevWonder linkedin profile"></a>
+						<a href="#"><img src="/extras/whatsapp.png" class="social-icon" alt="DevWonder whatsapp profile"></a>
+						<a href="#"><img src="/extras/twitter.png" class="social-icon" alt="DevWonder github profile"></a>
 					</div>
 				</footer>
 			</div>

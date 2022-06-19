@@ -215,35 +215,47 @@ $(() => {
         return smash_next;
     }
 
-    const handle_response = async function (url, lat, lon) {
-        //processes data (json response) from retrieve_data function (one call API) and returns a JSON object
-        const response = await retrieve_data(url, lat, lon);
-        const json = await response.json();
+    const get_forecast_data = async function (url, lat, lon) {
+        //processes data (json response) from backend endpoint and returns a JSON object
+        const coordinates = {
+            lat: 32,
+            long: 11
+        };
+        
+        // const json = await response.json();
         try {
-            if (!response.ok) {
-                const error = {
-                    status: response.status,
-                    statusText: response.statusText,
-                };
-                return Promise.reject(error);
-            }
-            return json;
+            const response = $.post('/api/forecast/', {
+                body: JSON.stringify(coordinates)
+            });
+            response.then((resp) => {
+                console.log(resp);
+            }, (err) => {
+                console.log(err);
+            });
+            // if (!response.ok) {
+            //     const error = {
+            //         status: response.status,
+            //         statusText: response.statusText,
+            //     };
+            //     return Promise.reject(error);
+            // }
+            // return json;
         } catch (error) {
             throw new Error(error);
         }
     };
 
-    const retrieve_data = async function (url, lat, lon) {
-        //retrieves data from one call API and returns the response
-        /*One call API format
-            https://api.openweathermap.org/data/2.5/onecall?lat={lat}&lon={lon}&
-            exclude={part}&appid={YOUR API KEY}*/
-        if (!url) {
-            url = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&exclude=hourly,minutely&appid=f16f5069fd7086051ded89bf67c0c6e5`;
-        }
-        const the_response = await fetch('/api/data');
-        return the_response;
-    };
+    // const retrieve_data = async function (url, lat, lon) {
+    //     //retrieves data from one call API and returns the response
+    //     /*One call API format
+    //         https://api.openweathermap.org/data/2.5/onecall?lat={lat}&lon={lon}&
+    //         exclude={part}&appid={YOUR API KEY}*/
+    //     if (!url) {
+    //         url = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&exclude=hourly,minutely&appid=f16f5069fd7086051ded89bf67c0c6e5`;
+    //     }
+    //     const the_response = await fetch('/api/data');
+    //     return the_response;
+    // };
 
     const display_error_in_connection_msg = () => removeIfExists(divs.no_connection, 'hidden');
 
@@ -340,83 +352,6 @@ $(() => {
         }
     }
 
-    // const show_today = async function () {
-    //     //display current forecast as at last retrieve of data
-    //     animate_click();
-    //     addIfNotExists(divs.smash_today_box, 'hidden');
-    //     const today_name_node = $('#country_name_today');
-    //     if (localStorage) {
-    //         weatherData = retrieve_from_storage();
-    //         show_full(weatherData.today).then(() => {
-    //             removeIfExists(divs.smash_today_box, 'hidden');
-    //             deanimate_click();
-    //         });
-    //     }
-    // };
-
-    function myMove(elem, pos, action) {
-        //Just to add transition to the div displaying weather info
-        console.log('here');
-        // var pos = -50;
-        const id = setInterval(frame, 1);
-        function frame() {
-            if (pos == 30) {
-                clearInterval(id);
-                elem.style.left = '0px';
-            } else {
-                if (action === 'next') {
-                    pos++;
-                    elem.style.left = pos + 'px';
-                } else {
-                    elem.style.left = pos + 'px';
-                    pos--;
-                }
-            }
-        }
-    }
-
-    $('.smash_btn').each(value => {
-        console.log(value);
-        value.on('click', function () {
-            const node_boxes = $('#smash_today_box');
-            console.log(this);
-            const action = this.getAttribute('data-action');
-            const active = node_boxes.attr('data-active');
-            let next_index = 0; //index of div to be displayed (changed later on)
-            const anime = ''; //The animation to be added to the div on click
-            const names = [
-                'today',
-                'today_2',
-                'today_3',
-                'today_4',
-                'today_5',
-                'today_6',
-                'today_7',
-                'today_8',
-            ];
-            const curr_index = names.indexOf(active); //index of current div
-            const weatherData = retrieve_from_storage();
-            let pos = 50;
-            if (action === 'previous') {
-                next_index = curr_index - 1;
-            } else {
-                next_index = curr_index + 1;
-                pos = -100;
-            }
-            if (next_index < names.length && next_index > -1) {
-                console.log(next_index);
-                console.log(names.length);
-                show_full(weatherData[names[next_index]], node_boxes).then(() => {
-                    deanimate_click();
-                });
-                myMove(node_boxes, pos, action);
-                node_boxes.setAttribute('data-active', names[next_index]);
-            } else {
-                value.setAttribute('disable', true);
-            }
-        });
-    });
-
     const check_data_in_storage = async function () {
         const retrieved_time = localStorage.getItem('retrieved_time');
         const saved_date = new Date(Number(retrieved_time));
@@ -444,7 +379,7 @@ $(() => {
             },
             () => {
                 check_data_in_storage();
-                // display_no_location_msg();
+                display_no_location_msg();
             }
         );
         
@@ -550,9 +485,35 @@ $(() => {
         }
     });
 
-    document.querySelector('body').addEventListener('click', () => {
+    $('body').on('click', () => {
         //Hide the generated search list and remove animation on search field on body click
         removeIfExists(divs.search_field, 'loading-text');
         addIfNotExists(divs.search_list, 'hidden');
     });
+
+    // FOR TOGGLE FUNCTIONALITY IN ABOUT SECTION
+    $('.extra-about-text').toggle(); // Hide the extra part by default
+    $('.toggler').on('click', ev => {
+        $('.main-about-text, .extra-about-text').toggle('slow');
+    });
+
+    // FOR NAVBAR ACTIVE STATE FUNCTIONALITY
+    $('a.nav-link').on('click', ev => {
+        $('a.nav-link').removeClass('active');
+        $(ev.target).addClass('active');
+    });
+
+    $(() => {
+        const page_url = location.href;
+        if (page_url.includes('contact-section')) {
+            $('.nav-contact').addClass('active')
+        } else if (page_url.includes('about-section')) {
+            $('.nav-about').addClass('active')
+        } else {
+            $('.nav-forecast').addClass('active')
+        }
+    });
+
+    // END OF NAVBAR FUNCTIONALITY
+
 });
