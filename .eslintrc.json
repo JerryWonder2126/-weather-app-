@@ -1,0 +1,20 @@
+{
+  "extends": "./node_modules/gts/",
+  "rules": {
+    "prettier/prettier": [
+      "error",
+      {
+        "endOfLine": "auto"
+      }
+    ],
+    "quotes": [
+      "error",
+      "single",
+      {
+        "allowTemplateLiterals": true,
+        "avoidEscape": true
+      }
+    ],
+    "@typescript-eslint/no-explicit-any": ["off"]
+  }
+}

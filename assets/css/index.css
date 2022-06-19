@@ -4,7 +4,8 @@
 }
 body{
     font-family: "Xanh Mono";
-    background: url('../extras/main1.jpg') no-repeat fixed;
+    /* background: url('/extras/main1.jpg') no-repeat fixed; */
+    background-color: rgb(23 23 56 / 88%);
     -moz-background-size: cover;
     -o-background-size: cover;
     -webkit-background-size: cover;
@@ -12,12 +13,15 @@ body{
     background-size: cover;
 }
 
+.row {
+    min-height: calc(100vh - 50px);
+}
+
 .hidden{
     display: none;
 }
 .my_card{
-    /* background-color: rgba(20,20,50, 0.6); */
-    background-color: rgba(20, 20, 50, 0.836);
+    background-color: rgb(1 3 14 / 84%);
     color: rgba(255, 255, 255, 0.925);
     border-radius: 20px;
 }
@@ -32,27 +36,17 @@ body{
 }
 header{
     /* background-color: rgba(20,20,50, 0.6); */
-    background-color: rgba(20,20,50);
+    background-color: rgb(1 3 14 / 84%);
     border-radius: 2px;
     top: 0;
     position: sticky;
     z-index: 1;
-}
-.head_wrapper{
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
 }
 .smash_date_div{
     align-self: flex-start;
     text-align: right;
     font-weight: 600;
     font-style: italic;
-}
-#search-box-wrapper{
-    display: flex;
-    justify-content: flex-end;
-    margin-top: 1em;
 }
 #search-info{
     color: #FFFFFF;
@@ -71,8 +65,10 @@ header{
     display: flex;
     flex-direction: row;
 }
-.smash_box, #request-info{
+.smash-slides {
     max-width: 900px;
+}
+.smash_box, #request-info{
     border-radius: 20px;
     margin-bottom: 20px;
     padding: 10px;
@@ -94,20 +90,23 @@ h2{
     font-size: 40px;
     text-align: center;
     text-transform: capitalize;
+    color: rgba(255, 255, 255, 0.925);
 }
-#smash_contact h2, #smash_about h2{
-    padding: 30px;
+#contact-section h2{
+    padding: 15px;
+    /* margin: 15px;  */
+    border-bottom: solid 3px;
 }
-#smash_about h2{
-    margin-top: unset;
+.smash-about-section h2{
+    padding: 15px;
+    width: 100%;
+    border-bottom: solid 3px;
 }
 .smash-about-section{
-    background-color: rgba(20, 20, 50, 0.836);
+    background-color: rgb(1 3 14 / 84%);
 }
-.display-img{
-    width: 40%;
-    border-radius: 20px;
-    padding: 0.5rem 0.5rem 0.5rem 0;
+.toggler {
+    cursor: pointer;
 }
 input[type=text]:focus, input[type=email]:focus, textarea:focus{
     -webkit-animation: load-text 2s linear infinite;
@@ -121,35 +120,40 @@ input[type=submit]{
     border-radius: 10px;
     outline: unset !important;
     font-weight: 800;
-    color: #130044;
+    color: rgba(11, 11, 14);
     font-size: 16px;
 }
+.form-field {
+    background-color: rgb(166 168 171 / 88%);
+    border-radius: 20px;
+}
 .contact-field{
-    color: #130044;
-    /* border: 4px rgba(20,20,50, 0.8) solid; */
+    color: rgba(11, 11, 14, 0.877);
     border-radius: 20px;
     outline: unset !important;
     background-color: rgba(255, 255, 255, 0.8);
+}
+.form-field label{
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 1.2em;
 }
 .form-label-text{
     color: rgba(255, 255, 255, 0.8);
     border-radius: 20px;
     outline: unset !important;
-    background-color: rgba(20,20,50, 0.8);
+    background-color: rgba(11, 11, 14, 0.877);
     font-size: 1.2em;
-}
-#contact-msg{
-    height: 300px;
 }
 footer{
     display: flex;
+    background-color: rgb(1 3 14 / 84%);
+    color: rgba(255, 255, 255, 0.925);
     justify-content: space-around;
+    padding: 20px;
 }
-#smash_credits ul{
-    list-style-type: none;
-}
-#smash_credits ul li{
-    margin: unset !important;
+footer p {
+    margin: 0;
+    padding: 0;
 }
 
 /* Add animation to "page content" */
@@ -197,7 +201,7 @@ footer{
   margin: -75px 0 0 -75px;
   border: 9px solid #f3f3f3;
   border-radius: 50%;
-  border-top: 9px solid rgb(2,2,2);
+  border-top: 9px solid rgba(11, 11, 14, 0.877);
   width: 100px;
   height: 100px;
   -webkit-animation: spin 2s linear infinite;
@@ -206,11 +210,11 @@ footer{
 
 #refresh-button, .smash_btn_wrapper button, .back-btn{
     padding: 10px;
-    border: 3px white outset;
+    border: 3px rgba(11, 11, 14, 0.877) outset;
     border-radius: 10px;
     font-size: 18px;
     font-weight: 600;
-    color: #130044;
+    color: rgba(11, 11, 14, 0.877);
 }
 
 .smash_btn_wrapper button{
@@ -219,7 +223,7 @@ footer{
 
 #refresh-button:hover, .smash_btn_wrapper button:hover, .back-btn:hover{
     border: 3px #AAAAAA inset;
-    color: #000066;
+    color: rgba(11, 11, 14, 0.877);
     background-color: #AAAAAA;
     outline: none !important;
 }
