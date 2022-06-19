@@ -3,8 +3,8 @@
 
 $(() => {
     const divs = {
-        def_lat: '74', //default longitude, just in case IP data API is unavailable
-        def_lon: '-31', //default longitude, just in case IP data API is unavailable
+        def_lat: 74, //default longitude, just in case IP data API is unavailable
+        def_lon: -31, //default longitude, just in case IP data API is unavailable
         valid: true, //a boolean to tell if forecast data stored in local storage is up to date
         schedule_check: false, //used to control the firing of gen_list function
         location: true, //used to check if user allowed access to location, changes to false if user denies access       //an object that contains needed divs(containers)
@@ -59,20 +59,14 @@ $(() => {
     };
 
     const animate_click = async function () {
-        const smash_cont = $('#smash_container');
-        const loader = $('#loader');
-        removeIfExists(loader, 'hidden');
-        removeIfExists(smash_cont, 'clear');
-        addIfNotExists(smash_cont, 'dim');
+        removeIfExists($('#loader'), 'hidden');
+        removeIfExists($('.dim'), 'hidden');
 
     }
 
     const deanimate_click = function () {
-        const smash_cont = $('#smash_container');
-        const loader = $('#loader');
-        removeIfExists(smash_cont, 'dim');
-        addIfNotExists(loader, 'hidden');
-        addIfNotExists(smash_cont, 'clear'); 
+        addIfNotExists($('#loader'), 'hidden');
+        addIfNotExists($('.dim'), 'hidden'); 
 
     }
 
@@ -178,9 +172,7 @@ $(() => {
     let load_sliders = function(){
         if(localStorage){
             const weatherData = retrieve_from_storage();
-            console.log(weatherData, 'ks');
             weatherData.forEach((elem, index, array) => {
-                console.log(elem);
                 show_full(elem).then(result => {
                     $('.carousel-inner').append(result);
                     update_slide_indicator(index);
@@ -215,34 +207,38 @@ $(() => {
         return smash_next;
     }
 
-    const get_forecast_data = async function (url, lat, lon) {
+    const get_forecast_data = async function (look_up='') {
         //processes data (json response) from backend endpoint and returns a JSON object
-        const coordinates = {
-            lat: 32,
-            long: 11
-        };
-        
-        // const json = await response.json();
-        try {
-            const response = $.post('/api/forecast/', {
-                body: JSON.stringify(coordinates)
-            });
-            response.then((resp) => {
-                console.log(resp);
-            }, (err) => {
-                console.log(err);
-            });
-            // if (!response.ok) {
-            //     const error = {
-            //         status: response.status,
-            //         statusText: response.statusText,
-            //     };
-            //     return Promise.reject(error);
-            // }
-            // return json;
-        } catch (error) {
-            throw new Error(error);
+        hide_error_in_connection_msg(); // Should it be visible beforehand then hide it before connecting to backend
+        let body, endpoint;
+        if (url) {
+            body = {
+                name: look_up
+            };
+            endpoint = '/api/search/';
+        } else {
+            body = {
+                lat: divs.def_lat,
+                long: divs.def_lon
+            };
+            endpoint = '/api/forecast/';
         }
+        
+        const response = await fetch(endpoint, {
+            body: JSON.stringify(body),
+            method: 'POST',
+            'headers': {
+                'Content-Type': 'application/json'
+            }
+        });
+
+        if (!response.ok) {
+            display_error_in_connection_msg();
+            throw new Error("Couldn't get response from backend");
+        }
+        const json = await response.json();
+        
+        return json;
     };
 
     // const retrieve_data = async function (url, lat, lon) {
@@ -336,19 +332,21 @@ $(() => {
         try {
             const dat = '';
             const store = []; //an array to store retrieved forecast data
-            const data = await handle_response(false, 23, 11);
-            store.push(add_unit(data.current))
-            // data.push(new Date().getTime()); //push timestamp of action
-            // localStorage.setItem('today', JSON.stringify(add_unit(data[0].current)));
-            localStorage.setItem('retrieved_time', new Date().getTime());
-            data.daily.forEach(element => {
-                store.push(add_unit(element))
-            });
-            localStorage.setItem('store', JSON.stringify(store));
+            const data = await get_forecast_data();
+            if (data) {
+                store.push(add_unit(data.current))
+                // data.push(new Date().getTime()); //push timestamp of action
+                // localStorage.setItem('today', JSON.stringify(add_unit(data[0].current)));
+                localStorage.setItem('retrieved_time', new Date().getTime());
+                data.daily.forEach(element => {
+                    store.push(add_unit(element))
+                });
+                localStorage.setItem('store', JSON.stringify(store));
+            }
+            
         } catch (error) {
-            console.log(error);
             // The resource could not be reached
-            throw new Error(error);
+            console.log(error);
         }
     }
 
@@ -356,103 +354,96 @@ $(() => {
         const retrieved_time = localStorage.getItem('retrieved_time');
         const saved_date = new Date(Number(retrieved_time));
 
-        // if (!retrieved_time || new Date().getHours() - saved_date.getHours() > 3 ||saved_date.getDate() !== new Date().getDate()) {
-        //     /*If retrieved_time doesn't exist in local storage, it means forecast data
-        //     have not been loaded or it has been cleared so we run the load_into_storage function*/
-        //     load_into_storage().then(done => {
-        //         if (done) load_sliders();
-        //     });
+        const retrieved_today = saved_date.getDate() === new Date().getDate(); // true if last retrieved date was today
+        const retrieved_less_3hrs = new Date().getHours() - saved_date.getHours() < 3; // true if last retrieved time was within the last three hours
 
-        // } else {
-        //     load_sliders();
-        // }
+        if (!retrieved_time || !retrieved_today || !retrieved_less_3hrs) {
+            /**
+             * If retrieved_time doesn't exist in local storage, it means forecast data
+             * have not been loaded or it has been cleared so we run the load_into_storage function
+             * 
+             * Also, if last retrieved time isn,t today
+             * 
+             * And, if last retrieved time exceeds 3hrs
+             */
+            load_into_storage().then(done => {
+                if (done) load_sliders();
+            });
 
-        load_sliders();
+        } else {
+            load_sliders();
+        }
     };
 
     const page_load = (async function () {
-        navigator.geolocation.getCurrentPosition(
-            (position) => {
-                divs.def_lat = position.coords.latitude;
-                divs.def_lon = position.coords.longitude;
-                check_data_in_storage();
-            },
-            () => {
-                check_data_in_storage();
-                display_no_location_msg();
-            }
-        );
+        animate_click();
+        // navigator.geolocation.getCurrentPosition(
+        //     (position) => {
+        //         divs.def_lat = position.coords.latitude;
+        //         divs.def_lon = position.coords.longitude;
+        //         check_data_in_storage();
+        //     },
+        //     () => {
+        //         display_no_location_msg();
+        //     }
+        // );
         
-    })();
+        setTimeout(() => {
+            check_data_in_storage().finally(deanimate_click());
+        }, 6000);  
+    })().finally();
 
-// const process_search = function (look_up, field) {
-//     if (divs.search_field.classList.contains('loading-text'))
-//         divs.search_field.classList.remove('loading-text');
-//     animate_click();
-//     field.disabled = true;
-//     const modify_list = {
-//         'temp': '°C',
-//         'pressure': 'hPa',
-//         'humidity': '%',
-//         'feels_like': '°C',
-//         'clouds': '%'
-//     };
-//     const url = `http://api.openweathermap.org/data/2.5/weather?q=${look_up}&appid=f16f5069fd7086051ded89bf67c0c6e5`;
-//     handle_response(url)
-//         .then(res => {
-//             const smash_next = document.querySelector('#smash_today_box');
-//             document.querySelector('#country_name_request').textContent = look_up;
-//             //Format response and make it ready for display
-//             let key = '';
-//             smash_next
-//                 .querySelectorAll('.details-basic')
-//                 .forEach((value, index, array) => {
-//                     key = value
-//                         .querySelector('.details-content')
-//                         .getAttribute('data-name');
-//                     if (key === 'clouds') {
-//                         value.querySelector('.details-content').textContent =
-//                             res.clouds.all + modify_list[key];
-//                     } else {
-//                         value.querySelector('.details-content').textContent =
-//                             res.main[key] + modify_list[key];
-//                     }
-//                 });
-//             smash_next
-//                 .querySelector('.details-weather')
-//                 .querySelectorAll('.details-content')
-//                 .forEach((value, index, array) => {
-//                     key = value.getAttribute('data-name');
-//                     value.textContent = res.weather[0][key];
-//                 });
-//             const icon_url = `http://openweathermap.org/img/wn/${res.weather[0].icon}@2x.png`;
-//             smash_next
-//                 .querySelector('.details-weather')
-//                 .querySelector('img')
-//                 .setAttribute('src', icon_url);
-//             smash_next.classList.remove('left-anime');
-//             smash_next.classList.add('left-anime');
-//             document.querySelectorAll('.for_search').forEach((value) => {
-//                 if (contains(value, 'hidden')) {
-//                     value.classList.remove('hidden');
-//                 } else {
-//                     value.classList.add('hidden');
-//                 }
-//             });
-//             deactivate_nav();
-//         })
-//         .catch(err => {
-//             console.log(err);
-//             display_not_found_msg();
-//         })
-//         .finally(() => {
-//             field.value = '';
-//             field.disabled = false;
-//             deanimate_click();
-//             //if(!spinner.classList.contains('hidden')) spinner.classList.add('hidden');
+    const process_search = async function (look_up, field) {
+        if (divs.search_field.classList.contains('loading-text'))
+            divs.search_field.classList.remove('loading-text');
+        field.disabled = true;
+        const modify_list = {
+            'temp': '°C',
+            'pressure': 'hPa',
+            'humidity': '%',
+            'feels_like': '°C',
+            'clouds': '%'
+        };
+        const search_result = await get_forecast_data(look_up);
+        const smash_next = document.querySelector('#smash_today_box');
+        document.querySelector('#country_name_request').textContent = look_up;
+        //Format response and make it ready for display
+        let key = '';
+        smash_next
+            .querySelectorAll('.details-basic')
+            .forEach((value, index, array) => {
+                key = value
+                    .querySelector('.details-content')
+                    .getAttribute('data-name');
+                if (key === 'clouds') {
+                    value.querySelector('.details-content').textContent =
+                        search_result.clouds.all + modify_list[key];
+                } else {
+                    value.querySelector('.details-content').textContent =
+                        search_result.main[key] + modify_list[key];
+                }
+            });
+        smash_next
+            .querySelector('.details-weather')
+            .querySelectorAll('.details-content')
+            .forEach((value, index, array) => {
+                key = value.getAttribute('data-name');
+                value.textContent = search_result.weather[0][key];
+            });
+        const icon_url = `http://openweathermap.org/img/wn/${search_result.weather[0].icon}@2x.png`;
+        smash_next
+            .querySelector('.details-weather')
+            .querySelector('img')
+            .setAttribute('src', icon_url);
+            // .catch(err => {
+            //     console.log(err);
+            // })
+            // .finally(() => {
+            //     field.value = '';
+            //     field.disabled = false;
 
-//         });
-// };
+            // });
+    };
     $('#back_btn').on('click', () => {
         const smash_box = $('#smash_today_box');
         const active = smash_box.getAttribute('data-active');
@@ -477,11 +468,17 @@ $(() => {
 
     divs.search_field.on('keyup', function (e) {
         e.preventDefault();
-        hide_not_found_msg();
         addIfNotExists(divs.search_field, 'loading-text');
         if (divs.schedule_check) clearTimeout(divs.schedule_check);
         if (this.value) {
-            divs.schedule_check = setTimeout(process_search, 1500, this.value, this);
+            divs.schedule_check = setTimeout(() => {
+                animate_click();
+                process_search().catch(err => console.log(err)).finally(() => {
+                    this.value = '';
+                    this.disabled = false;
+                    deanimate_click();
+                });
+            }, 1500, this.value, this);
         }
     });
 
