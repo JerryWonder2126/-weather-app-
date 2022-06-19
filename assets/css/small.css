@@ -5,10 +5,12 @@
     }
     .logo-img {
         width: 25%;
-        display: inline;
+        /* display: inline; */
     }
-    #smash_about img{
-        width: 50%;
+    .display-img {
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
     .smash_box, #request-info{
         text-align: start;        

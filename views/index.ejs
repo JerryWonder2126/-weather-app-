@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta name="viewport" content="width=device-width,initial-scale=1" />
+		<meta charset="utf-8" />
+		<title>Smash It.smash</title>
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Modak&display=swap" />
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lobster&display=swap" />
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Xanh Mono&display=swap" />
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+		<!-- <link rel="stylesheet" href="/css/bootstrap.min.css"/> -->
+		<link rel="stylesheet" href="/css/index.css"/>
+		<link rel="stylesheet" href="/css/large.css"/>
+		<link rel="stylesheet" href="/css/small.css"/>
+	</head>
+	<body>
+		<div id="loader" class="hidden"></div>
+		<div id="smash_container">
+			<header>
+				<nav class="navbar navbar-expand-md navbar-dark master-nav">
+					<a class="navbar-brand"><img class="logo-img" src="/extras/wap_logo.png" alt="Site logo"></a>
+					<button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+					  <span class="navbar-toggler-icon"></span>
+					</button>
+					<div class="collapse navbar-collapse" id="navbarText">
+						<nav class="navbar-nav mr-auto">
+							<a class="nav-link active" href="#">View Forecast</a>
+							<a class="nav-link" href="#about-section">About Me</a>
+							<a class="nav-link" href="#contact-section">Contact Me</a>
+							<!-- <a class="nav-link disabled" href="#">Disabled</a> -->
+						</nav>
+					</div>
+					<!-- <div class="hidden">
+						<div class="hidden">
+							<form class="form-inline">
+								<input id="search-text" name="search" autocomplete="off" class="form-control search-input-text" type="search" placeholder="Search" aria-label="Search">
+							</form>
+						</div>
+						<div class="text-white navbar-text date-text">Today's Date</div>
+					</div> -->
+				</nav>
+			</header>
+			<div class="container-fluid">
+				<div class="row justify-content-center align-items-center">
+					<div class="col smash-slides">
+						<main>
+							<div class="carousel slide" data-ride="carousel">
+								<ol class="carousel-indicators"><!-- content will be loaded from script on page load --></ol>
+								<div class="carousel-inner"><!-- content will be loaded from script on page load --></div>
+									<a class="carousel-control-prev" href="#smash-slides" role="button" data-slide="prev">
+										<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+										<span class="sr-only">Previous</span>
+									</a>
+									<a class="carousel-control-next" href="#smash-slides" role="button" data-slide="next">
+									<span class="carousel-control-next-icon" aria-hidden="true"></span>
+									<span class="sr-only">Next</span>
+									</a>
+							</div>
+							<div class="smash_box_template hidden">
+								<h2></h2>
+								<h3 class="details-header">Basic Details</h3>
+								<p class="details-basic">
+									<span class="details-title">Temperature:</span>
+									<span data-name="temp" class="details-content"></span>
+								</p>
+								<p class="details-basic">
+									<span class="details-title">Pressure:</span>
+									<span data-name="pressure" class="details-content"></span>
+								</p>
+								<p class="details-basic">
+									<span class="details-title">Humidity:</span>
+									<span data-name="humidity" class="details-content"></span>
+								</p>
+								<p class="details-basic">
+									<span class="details-title">Cloudiness:</span>
+									<span data-name="clouds" class="details-content"></span>
+								</p>
+								<p class="details-basic">
+									<span class="details-title">Feels Like:</span>
+									<span data-name="feels_like" class="details-content"></span>
+								</p>
+								<h3 class="details-header">Weather Condition</h3>
+								<p class="details-weather">
+									<span class="details-title">Weather: </span>
+									<span data-name="main" class="details-content"></span>
+									<span data-name="description" class="details-content"></span>
+									<img class="details-icon" src="" alt="icon">
+								</p>
+								<div class="details-time">
+									<span class="details-title">Last Update From Server:</span>
+									<span data-name="time" data-name="pressure" class="details-content"></span>
+								</div>
+							</div>
+							<section id="smash_request" class="hidden">
+								<!-- This section displays forecast data after a user makes a search -->
+								<button id="back_btn" class="back-btn">Back</button>
+								<h2 id="data_dt">Today's Weather Conditions in
+									<span id='country_name_request'>lert</span>.
+								</h2>
+								<!-- content will be loaded from script when user makes a search -->
+							</section>
+						</main>
+					</div>
+				</div>
+				<div class="row smash-about-section" id="about-section">
+					<div class="col-12">
+						<h2 class="">About WatchOut</h2>
+					</div>
+					<div class="col-12 col-md-6 col-lg-5 display-img">
+						<img class="img-fluid" src="/extras/smash owner.jpg"/>
+					</div>
+					<div class="col-12 col-md-6 col-lg-7">
+						<p class="text-light text-justify d-block smash_about_note">
+							Sylvester Presley, the owner of smash it. This app was created to help you 
+							with weather forecast for our upcoming programmes.
+							<span type="button" id="about-toggler" class="toggler" data-toggle="collapse" data-target="#extra-about-text" aria-expanded="false" aria-controls="extra-about-text">
+								show more...
+							</span>
+							<span id="extra-about-text" class="text-light text-justify collapse">
+								I am Jeremiah. An average heighted and cheerful guy with dark skin and bright eyes. A lover of fried rice simply because it's not really hard to cook, 
+								it is tasty, contains vegetables and quite green.I was born in Lagos, Nigeria, where I finished my 
+								primary and secondary education. I moved on to Ibadan for my tertiary education, which I'm still doing 
+								till date and I have no work experience yet. I am Jeremiah. An average heighted and cheerful guy with 
+								dark skin and bright eyes. A lover of fried rice simply because it's not really hard to cook, it is tasty, 
+								ontains vegetables and quite green. I was born in Lagos, Nigeria, where I finished my primary 
+								and secondary education. I moved on to Ibadan for my tertiary education, which I'm still doing 
+								till date and I have no work experience yet.Sylvester Presley, the owner of smash it. This app was created to help you 
+								with weather forecast for our upcoming programmes.I am Jeremiah. An average heighted and cheerful 
+								guy with dark skin and bright eyes.
+								<span type="button" class="toggler" id="about-toggler" data-toggle="collapse" data-target="#extra-about-text" aria-expanded="false" aria-controls="extra-about-text">
+									show less...
+								</span>
+							</span>
+						</p>
+						
+					</div>
+				</div>
+				<div class="row smash_contact" id="contact-section">
+					<div class="col-12">
+						<h2 class="">Contact Me</h2>
+					</div>
+					<div class="col-12">
+						<form id="contact-form">
+							<div>
+								<div class="p-3 my-3 form-field">
+									<label for="contact-email">Email</label>
+									<input id="contact-email" class="form-control contact-field" name="contact-email" type="email" placeholder="Please enter a working email address" required/>
+								</div>
+								<div class="p-3 my-3 form-field">
+									<label for="contact-msg">Message</label>
+									<textarea id="contact-msg" minlength="500" cols="10" maxlength="3000" class="form-control contact-field" name="contact-msg" placeholder="Feel free to say what's in your mind" required></textarea>
+								</div>
+								<div class="d-flex justify-content-end">
+									<input type="submit" class="py-2 px-5" value="Send" id="contact-submit"/>
+								</div>
+								<!-- <div class="col-12">
+									<div class="form-group">
+										<label class="sr-only" for="inlineFormInputGroup">Email</label>
+										<div class="input-group mb-2">
+											<div class="input-group-prepend">
+											<div class="input-group-text p-3 form-label-text">Email</div>
+											</div>
+										<input id="contact-email" class="form-control contact-field" name="contact-email" type="email" placeholder="Please enter a working email address" required/>
+									</div>
+								</div>
+								<div class="col-12">
+									<div class="form-group">
+										<label class="sr-only" for="inlineFormInputGroup">Your message</label>
+										<div class="input-group mb-2">
+											<div class="input-group-prepend">
+											<div class="input-group-text p-3 form-label-text">Message</div>
+											</div>
+										<textarea id="contact-msg" minlength="500" cols="10" maxlength="3000" class="form-control contact-field" name="contact-msg" placeholder="Feel free to say what's in your mind" required></textarea>
+									</div>
+								</div>
+								<div class="col-12">
+									<div class="form-group d-flex justify-content-end">
+										<input type="submit" class="py-2 px-5" value="Send" id="contact-submit"/>
+									</div>
+								</div> -->
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+
+			<div class="alerts">
+				<p id="not-found" class="msg hidden">
+					Sorry, we couldn't fetch weather info for that location, please confirm that you 
+					spelled correctly and try again.
+				</p>
+				<p id="no-connection" class="msg hidden">Sorry, we couldn't establish a connection.
+					Please refresh the page or check your internet connection.
+				</p>
+				<p id="no-location" class="msg hidden">Oops! This page needs access to your location to function.</p>
+				<p id="progress" class="hidden">Loading... Please wait.</p>
+				<button role="button" id="refresh-button" class="hidden">Refresh data</button>
+			</div>
+
+			<div class="container-fluid p-0 m-0">
+				<footer>
+					<div id="smash_credits text-white">
+						<p>WatchOut &copy 2020</p>
+					</div>
+				</footer>
+			</div>
+		</div>
+		<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+		<!-- <script src="/js/jquery-3.6.0.min.js"></script>
+		<script src="/js/bootstrap.bundle.min.js"></script> -->
+		<script src="/js/index.js"></script>
+	</body>
+</html>

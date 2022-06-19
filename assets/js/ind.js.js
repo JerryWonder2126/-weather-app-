@@ -1,3 +1,5 @@
+/* eslint-disable prettier/prettier */
+/* eslint-disable */
 $(document).ready(function(){
     
     let divs = {    //an object that contains needed divs(containers)
@@ -391,7 +393,7 @@ $(document).ready(function(){
     let show_full = async function (response) {
         let data = JSON.parse(response);    //turn response into an object
         let retrieved_time = localStorage.getItem("retrieved_time");
-        smash_next = forecast_html_markup(klass=['carousel-item', 'smash_box', 'my_card']);
+        const smash_next = forecast_html_markup(klass=['carousel-item', 'smash_box', 'my_card']);
         smash_next.querySelector("h2").textContent = proc_gmt_days(data.dt*1000);
         let time = proc_gmt(Number(retrieved_time));
         //Format response and make it ready for display
