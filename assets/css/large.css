@@ -3,11 +3,6 @@
         width: 10vw;
         /* margin: 20px 30px; */
     }
-    .alerts{
-        display: flex;
-        justify-content: space-between;
-        margin-bottom: 1em;
-    }
     #smash_boxes, #smash_request{
         flex-grow: 3;
     }
