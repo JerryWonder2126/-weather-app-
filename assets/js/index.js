@@ -292,16 +292,13 @@ $(() => {
 
     async function load_into_storage() {
         try {
-            const dat = '';
             const store = []; //an array to store retrieved forecast data
             const data = await get_forecast_data();
             if (data) {
-                store.push(add_unit(data.current))
-                // data.push(new Date().getTime()); //push timestamp of action
-                // localStorage.setItem('today', JSON.stringify(add_unit(data[0].current)));
+                store.push(add_unit(data.current));
                 localStorage.setItem('retrieved_time', new Date().getTime());
                 data.daily.forEach(element => {
-                    store.push(add_unit(element))
+                    store.push(add_unit(element));
                 });
                 localStorage.setItem('store', JSON.stringify(store));
             }
@@ -326,34 +323,34 @@ $(() => {
              * 
              * Also, if last retrieved time isn't today
              * 
-             * And, if last retrieved time exceeds 3hrs
+             * And, if last retrieved time exceeds 3hrs, then refresh data in localStorage
              */
-            load_into_storage().then(done => {
-                if (done) load_sliders();
-            });
-
-        } else {
-            load_sliders();
+            await load_into_storage();
         }
+
+        load_sliders(); // This loads up data from localStorage into sliders
     };
 
-    const page_load = (async function () {
+    $(() => {
+        // This runs on page load, it fires up the whole process
         animate_click();
         navigator.geolocation.getCurrentPosition(
-            (position) => {
+            async (position) => {
                 divs.def_lat = position.coords.latitude;
                 divs.def_lon = position.coords.longitude;
-                check_data_in_storage();
+                await check_data_in_storage();
+                deanimate_click()
             },
             () => {
                 display_no_location_msg();
+                deanimate_click()
             }
         );
         
         // setTimeout(() => {
         //     check_data_in_storage().finally(deanimate_click());
         // }, 1000);  
-    })().finally(deanimate_click());
+    });
 
     const process_search = async function (look_up, field) {
         field.disabled = true;
@@ -484,7 +481,7 @@ $(() => {
         const copy_div = $('#smash_credits p');
         const present = new Date().getFullYear();
         if (present !== 2020) {
-            copy_div.text('WatchOut &copy 2020-' + present.toString());
+            copy_div.html('WatchOut &copy 2020-' + present.toString());
         }
     })();
 
