@@ -14,8 +14,8 @@ body{
 }
 
 .alerts {
-    /* height: 100vh;
-    width: 100vw; */
+    width: 90%;
+    max-width: 500px;
     position: absolute;
     top: 50%;
     left: 50%;
@@ -37,18 +37,13 @@ body{
     min-height: calc(100vh - 60px);
 }
 
-/* #slides-section {
+#slides-section, .smash-about-section {
     min-height: calc(100vh - 60px);
 }
 
-
-.smash-about-section {
-    min-height: 100vh;
-}
-
 #contact-section {
-    min-height: calc(100vh - 12px);
-} */
+    min-height: calc(100vh - 10em);
+}
 
 .hidden{
     display: none;
@@ -67,26 +62,19 @@ header{
     z-index: 100;
     padding: 1rem 0;
 }
+.logo-img {
+    width: 5em;
+}
+
+.date-text p {
+    margin: 0px;
+}
 /* Active class is for navbar functionality */
 .active {
     color: rgba(255, 255, 255, 0.925);
 }
-.smash_date_div{
-    align-self: flex-start;
-    text-align: right;
-    font-weight: 600;
-    font-style: italic;
-}
-#search-info{
-    color: #FFFFFF;
-    font-weight:900;
-    width: 58%;
-}
 .search-input-text{
-    width: max-content;
     color: #130044;
-    border: 4px rgba(20,20,50, 0.8) solid;
-    border-radius: 20px;
     outline: unset !important;
     background-color: rgba(255, 255, 255, 0.8);
 }
@@ -109,9 +97,6 @@ main {
     display: table;
     margin: 0 auto 0 auto;
     padding-bottom: 1em;
-}
-.logo-img {
-    width: 40%;
 }
 /* formatting for contact form */
 h2{

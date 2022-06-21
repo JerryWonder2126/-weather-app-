@@ -2,6 +2,7 @@
 /* eslint-disable */
 
 $(() => {
+    const LOCATION_GRANTED = false;
     const divs = {
         def_lat: 74, //default longitude, just in case IP data API is unavailable
         def_lon: -31, //default longitude, just in case IP data API is unavailable
@@ -185,21 +186,20 @@ $(() => {
 
     const get_forecast_data = async function (look_up='') {
         //processes data (json response) from backend endpoint and returns a JSON object
-        
+        hide_not_found_msg(); // Should it be visible beforehand then hide it before connecting to backend
+        hide_error_in_connection_msg(); // Should it be visible beforehand then hide it before connecting to backend
         let body, endpoint;
         if (look_up) {
             body = {
                 name: look_up
             };
             endpoint = '/api/search/';
-            hide_not_found_msg(); // Should it be visible beforehand then hide it before connecting to backend
         } else {
             body = {
                 lat: divs.def_lat,
                 long: divs.def_lon
             };
             endpoint = '/api/forecast/';
-            hide_error_in_connection_msg(); // Should it be visible beforehand then hide it before connecting to backend
         }
         
         const response = await fetch(endpoint, {
@@ -213,6 +213,10 @@ $(() => {
         if (!response.ok) {
             if (look_up) {
                 display_not_found_msg();
+                if (!LOCATION_GRANTED) {
+                    // This means error in connection message is visible, hide it
+                    hide_no_location_msg();
+                }
             } else {
                 display_error_in_connection_msg();
             }
@@ -226,40 +230,15 @@ $(() => {
 
     const display_error_in_connection_msg = () => removeIfExists(divs.no_connection, 'hidden');
 
+    const hide_error_in_connection_msg = () => addIfNotExists(divs.no_connection, 'hidden');
+
     const display_no_location_msg = () => removeIfExists(divs.no_location, 'hidden');
 
-    const hide_error_in_connection_msg = () => addIfNotExists(divs.no_connection, 'hidden');
+    const hide_no_location_msg = () => addIfNotExists(divs.no_location, 'hidden');
 
     const display_not_found_msg = () => removeIfExists(divs.not_found, 'hidden');
 
-    const hide_not_found_msg = () => addIfNotExists(divs.not_found, 'hidden');
-
-    const date_div = () => {
-        //This function displays the date on the header
-        const [month, date, year] = new Date(Date.now())
-            .toLocaleDateString()
-            .split('/');
-        const [hour, minute, second] = new Date(Date.now())
-            .toLocaleTimeString()
-            .slice(0, 7)
-            .split(':');
-        let date_info =
-            '<p>' + hour + ':' + minute + ':' + second + '<br/>';
-        date_info += date + '-' + month + '-' + year + '</p>';
-        $('.date-text').html(date_info);
-    };
-    setInterval(date_div, 1000);
-
-    const prev_dt = (function () {
-        //generates an object that contains timestamps for the last four days
-        data = new Array();
-        for (let x = 1; x < 5; x++) {
-            prev = new Date(new Date().getTime() - x * 24 * 3600 * 1000).getTime();
-            prev = Math.floor(prev / 1000);
-            data.push(prev);
-        }
-        return data;
-    })();
+    const hide_not_found_msg = () => addIfNotExists(divs.not_found, 'hidden')
 
     const retrieve_from_storage = function () {
         //returns an object that contains forecasts retrieved from local storage
@@ -345,15 +324,10 @@ $(() => {
                 display_no_location_msg();
                 deanimate_click()
             }
-        );
-        
-        // setTimeout(() => {
-        //     check_data_in_storage().finally(deanimate_click());
-        // }, 1000);  
+        ); 
     });
 
-    const process_search = async function (look_up, field) {
-        field.disabled = true;
+    const runSearch = async function (look_up) {
         const modify_list = {
             'temp': '°C',
             'pressure': 'hPa',
@@ -401,32 +375,48 @@ $(() => {
         } else {
             $('#smash_request').append(smash_next);
         }
-
-        addIfNotExists($('#smash-slides'), 'hidden');
-        removeIfExists($('#smash_request'), 'hidden');
-
-        
     };
     $('#back_btn').on('click', () => {
         $('#smash_request, #smash-slides').toggleClass('hidden');
+        if (!LOCATION_GRANTED) {
+            removeIfExists(divs.no_location, 'hidden');
+            addIfNotExists(divs.not_found, 'hidden');
+        }
     });
 
     $('#search-form').on('submit', (e) => {
         e.preventDefault();
     });
 
+    const processSearch = async (look_up, field) => {
+        try {
+            field.disabled = true;
+            animate_click();
+            await runSearch(look_up, field);
+        } catch (err) {
+            console.log(err);
+        } finally {
+            field.value = '';
+            field.disabled = false;
+            
+            // Display search result or empty div in the case of an error
+            addIfNotExists($('#smash-slides'), 'hidden');
+            removeIfExists($('#smash_request'), 'hidden');
+
+            if (!$('a.nav-forecast').hasClass('active')) {
+                // Shift display so that data is in view
+                $('a.nav-forecast').trigger('click');
+            }
+
+            deanimate_click();
+        }
+    }
+
     divs.search_field.on('keyup', function (e) {
         e.preventDefault();
         if (divs.schedule_check) clearTimeout(divs.schedule_check);
         if (this.value) {
-            divs.schedule_check = setTimeout((look_up, field) => {
-                animate_click();
-                process_search(look_up, field).catch(err => console.log(err)).finally(() => {
-                    this.value = '';
-                    this.disabled = false;
-                    deanimate_click();
-                });
-            }, 1500, this.value, e.target);
+            divs.schedule_check = setTimeout(processSearch, 1500, this.value, e.target);
         }
     });
 
@@ -442,8 +432,8 @@ $(() => {
         const active_link = $(ev.target);
         const target_div = active_link.attr('data-target');
         active_link.addClass('active');
-        // console.log($(`#${target_div}`).text());
-        offset_section($(`#${target_div}`));
+        closeMenu();    // Close the menu after click
+        offset_section($(`#${target_div}`));    // Offset section just so it displays properly
     });
 
     $(() => {
@@ -461,7 +451,7 @@ $(() => {
         $('a.nav-link').each((index, link, array) => {
             link = $(link);
             if (link.hasClass('active')) {
-                link.click();
+                link.trigger('click'); // The offset applies on click
                 return false;
             }
         });
@@ -469,10 +459,20 @@ $(() => {
 
     const offset_section = (section) => {
         // To make sure no content is hidden behind the header
-        const header_height = 170;
+        const header_height = $('header').outerHeight();
         const position = section.offset().top - header_height;
-        $('html,body').animate({ scrollTop: position, color: 'green' }, 'slow');
+        $('html,body').animate({ scrollTop: position }, 'slow');
     }
+
+    const closeMenu = () => {
+        // closes menu
+        if ($('.navbar-collapse').hasClass('show')) {
+            $('.navbar-toggler .navbar-toggler-icon').trigger('click');
+        }
+    }
+
+    // Close menu on body scroll, didn't work with jquery
+    document.addEventListener('scroll', closeMenu(), true);
 
     // END OF NAVBAR FUNCTIONALITY
 
@@ -481,7 +481,7 @@ $(() => {
         const copy_div = $('#smash_credits p');
         const present = new Date().getFullYear();
         if (present !== 2020) {
-            copy_div.html('WatchOut &copy 2020-' + present.toString());
+            copy_div.html(`WatchOut &copy 2020-${present.toString()}`);
         }
     })();
 

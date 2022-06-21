@@ -30,7 +30,33 @@ router.post('/api/search/', async (req: Request, res: Response) => {
     const the_response = await axios.get(url);
     res.json(the_response.data);
   } catch (err: any) {
-    res.status(err.response.data.cod).send(err.response.data.message);
+    if (err.response) {
+      res.status(err.response.data.cod).send(err.response.data.message);
+    } else {
+      res.sendStatus(404);
+    }
+  }
+  res.end();
+});
+
+router.get('/connect/', (req: Request, res: Response) => {
+  const socialLinks = {
+    facebook: 'https://facebook.com',
+    whatsapp: 'https://whatsapp.com',
+    linkedIn: 'https://linkedin.com',
+    twitter: 'https://twitter.com',
+  };
+  type IConnect = keyof typeof socialLinks;
+  const network = req.query['network'] as string;
+  try {
+    if (!(network in socialLinks)) {
+      throw new Error('Invalid request.');
+    }
+    const link = socialLinks[network as IConnect];
+    // res.sendStatus(200);
+    res.redirect(link);
+  } catch (err) {
+    res.sendStatus(403);
   }
   res.end();
 });
