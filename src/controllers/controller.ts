@@ -15,10 +15,8 @@ router.post('/api/forecast/', async (req: Request, res: Response) => {
     const API_KEY = process.env.OPEN_WEATHER_API_KEY;
     const url = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${long}&exclude=hourly,minutely&appid=${API_KEY}`;
     const the_response = await axios.get(url);
-    console.log(the_response.data);
     res.json(the_response.data);
   } catch (err: any) {
-    console.log(err);
     res.status(500).send("Couldn't connect to OpenWeatherAPI");
   }
   res.end();
@@ -30,11 +28,9 @@ router.post('/api/search/', async (req: Request, res: Response) => {
     const API_KEY = process.env.OPEN_WEATHER_API_KEY;
     const url = `http://api.openweathermap.org/data/2.5/weather?q=${look_up}&appid=${API_KEY}`;
     const the_response = await axios.get(url);
-    console.log(the_response.data);
     res.json(the_response.data);
   } catch (err: any) {
-    console.log(err);
-    res.status(500).send("Couldn't connect to OpenWeatherAPI");
+    res.status(err.response.data.cod).send(err.response.data.message);
   }
   res.end();
 });

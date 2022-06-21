@@ -23,7 +23,6 @@ body{
 }
 
 .msg{
-    position: relative;
     color: rgb(237 58 75);
     background-color: rgba(0, 0, 0, 0.6);
     font-weight: 800;
@@ -33,7 +32,12 @@ body{
     border-radius: 20px;
 }
 
-#slides-section {
+.row {
+    position: relative;
+    min-height: calc(100vh - 60px);
+}
+
+/* #slides-section {
     min-height: calc(100vh - 60px);
 }
 
@@ -44,7 +48,7 @@ body{
 
 #contact-section {
     min-height: calc(100vh - 12px);
-}
+} */
 
 .hidden{
     display: none;
@@ -204,43 +208,6 @@ footer div {
     margin: 0.5rem;
 }
 
-
-/* Add animation to "page content" */
-.left-anime{
-    position: relative;
-    -webkit-animation-name: animateleft;
-    -webkit-animation-duration: 0.5s;
-    animation-name: animateleft;
-    animation-duration: 0.5s;
-}
-
-.right-anime{
-    position: relative;
-    -webkit-animation-name: animateright;
-    -webkit-animation-duration: 0.5s;
-    animation-name: animateright;
-    animation-duration: 0.5s;
-}
-
-@-webkit-keyframes animateright {
-    from { left:20vw; opacity:0 } 
-    to { left:0; opacity:1 }
-}
-
-@keyframes animateright { 
-    from{ left:20vw; opacity:0 } 
-    to{ left:0; opacity:1 }
-}
-
-@-webkit-keyframes animateleft {
-    from { left:-400px; opacity:0 } 
-    to { left:0px; opacity:1 }
-}
-  
-@keyframes animateleft { 
-    from{ left:-400px; opacity:0 } 
-    to{ left:0; opacity:1 }
-}
 /*Define loader*/
 #loader {
   position: fixed;
