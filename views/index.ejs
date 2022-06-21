@@ -34,22 +34,13 @@
 							<input id="search-text" name="search" autocomplete="off" class="form-control search-input-text" type="search" placeholder="Search" aria-label="Search">
 						</form>
 					</div>
-					<!-- <div class="">
-						<div class="">
-							<form class="form-inline">
-								<input id="search-text" name="search" autocomplete="off" class="form-control search-input-text" type="search" placeholder="Search" aria-label="Search">
-							</form>
-						</div>
-						<div class="text-white navbar-text date-text">Today's Date</div>
-					</div> -->
-					
 				</nav>
 			</header>
 			<div class="container-fluid">
 				<div class="row" id="slides-section">
 					<div class="col d-flex justify-content-center align-items-center">
 						<main>
-							<div class="carousel slide" id="smash-slides" data-ride="carousel">
+							<div class="carousel slide hidden" id="smash-slides" data-ride="carousel">
 								<ol class="carousel-indicators"><!-- content will be loaded from script on page load --></ol>
 								<div class="carousel-inner"><!-- content will be loaded from script on page load --></div>
 									<a class="carousel-control-prev" href="#smash-slides" role="button" data-slide="prev">
@@ -98,7 +89,7 @@
 							</div>
 							<section id="smash_request" class="hidden">
 								<!-- This section displays forecast data after a user makes a search -->
-								<button id="back_btn" class="back-btn">Back</button>
+								<button id="back_btn" class="back-btn">Close</button>
 								<h2 id="data_dt">Today's Weather Conditions in
 									<span id='country_name_request'></span>.
 								</h2>
@@ -111,7 +102,7 @@
 					<div class="col-12 d-block d-md-none">
 						<h2 class="">About WatchOut</h2>
 					</div>
-					<div class="col-12 col-md-6 col-lg-5 display-img">
+					<div class="col-12 col-md-6 col-lg-5 my-2 display-img">
 						<img class="img-fluid" src="/extras/smash owner.jpg"/>
 					</div>
 					<div class="col-12 col-md-6 col-lg-7">
@@ -130,7 +121,7 @@
 							React, Logging and testing too. So, I am kind of like a junior fullstack developer. I look forward to writing great projects and 
 							working with a software company someday, already on the hunt.
 							<br><br>
-							I hope you love this, I'll love to get feedbacks from you. Kindly go to the <a class="social-connect" href="#contact-section">contact section</a> and hit me with your feedbacks.
+							I hope you love this, I'll love to get feedbacks from you. Kindly go to the <a class="social-connect contact-link" data-target="contact-section" href="#contact-section">contact section</a> and hit me with your feedbacks.
 							You can also connect with me on 
 							<a href="/connect/?network=facebook" class="social-connect" target="_blank">facebook</a>,
 							<a href="/connect/?network=twitter" class="social-connect" target="_blank">twitter</a>,
@@ -161,16 +152,17 @@
 			</div>
 
 			<div class="alerts">
-				<p id="not-found" class="msg hidden">
-					Sorry, we couldn't fetch weather info for that location, please confirm that you 
-					spelled correctly and try again.
-				</p>
-				<p id="no-connection" class="msg hidden">Sorry, we couldn't establish a connection.
+				<div id="not-found" class="alert msg hidden">
+					<p>
+						Sorry, we couldn't fetch weather info for that location, please confirm that you 
+						spelled correctly and try again.
+					</p>
+					<button class="close-btn">x</button>
+				</div>
+				<p id="no-connection" class="alert msg hidden">Sorry, we couldn't establish a connection.
 					Please refresh the page or check your internet connection.
 				</p>
-				<p id="no-location" class="msg hidden">Oops! This page needs access to your location to function properly.</p>
-				<p id="progress" class="hidden">Loading... Please wait.</p>
-				<button role="button" id="refresh-button" class="hidden">Refresh data</button>
+				<p id="no-location" class="alert msg hidden">Oops! This page needs access to your location to function properly.</p>
 			</div>
 
 			<div class="container-fluid p-0 m-0">
