@@ -6,7 +6,7 @@ $(() => {
         def_lat: 74, //default longitude, just in case IP data API is unavailable
         def_lon: -31, //default longitude, just in case IP data API is unavailable
         valid: true, //a boolean to tell if forecast data stored in local storage is up to date
-        schedule_check: false, //used to control the firing of gen_list function
+        schedule_check: false, //used to control the firing of process_search function
         location: true, //used to check if user allowed access to location, changes to false if user denies access       //an object that contains needed divs(containers)
         smash_prev: $('#smash_prev'),
         smash_today: $('#smash_today'),
@@ -24,25 +24,6 @@ $(() => {
         search_list: $('#search-list'),
     };
 
-    const my_toggle = function (klass, conts) {
-        //conts is the class to be toggled on node klass
-        conts.forEach((value, index, array) => {
-            value.classList.toggle(klass);
-        });
-    };
-
-    const deactivate_nav = function () {
-        //removes the 'active' class from all nav elements(.nav-item)
-        // const nav_items = $('.nav_item');
-        // for (let count = 0; count < nav_items.length; count++) {
-        //     if (contains(nav_items[count], 'active'))
-        //         nav_items[count].addClass('active');
-        // }
-        $('.nav_item').each((index, value) => {
-            if (value.hasClass('active')) value.removeClass('active')
-        })
-    };
-
     const removeIfExists = (div, klass) => {
         // Removes a class from a jquery object if class exists on object's classlist
         if(div.hasClass(klass)) div.removeClass(klass);
@@ -52,11 +33,6 @@ $(() => {
         // Adds a class to a jquery object if class does not exist on object's classlist
         if(!div.hasClass(klass)) div.addClass(klass);
     }
-
-    const contains = function (div, klass) {
-        // Checks if a jquery object's classlist contains class
-        return div.hasClass(klass);
-    };
 
     const animate_click = async function () {
         removeIfExists($('#loader'), 'hidden');
@@ -178,8 +154,8 @@ $(() => {
                     update_slide_indicator(index);
                     if((index + 1) == array.length){
                         //Add active class to first carousel-item to make slide active
-                        $($('.carousel-item')[0]).addClass('active');
-                        $($('ol.carousel-indicators li')[0]).addClass('active');
+                        $('.carousel-item').first().addClass('active');
+                        $('ol.carousel-indicators li').first().addClass('active');
                     }
                 });
             });
@@ -209,19 +185,21 @@ $(() => {
 
     const get_forecast_data = async function (look_up='') {
         //processes data (json response) from backend endpoint and returns a JSON object
-        hide_error_in_connection_msg(); // Should it be visible beforehand then hide it before connecting to backend
+        
         let body, endpoint;
-        if (url) {
+        if (look_up) {
             body = {
                 name: look_up
             };
             endpoint = '/api/search/';
+            hide_not_found_msg(); // Should it be visible beforehand then hide it before connecting to backend
         } else {
             body = {
                 lat: divs.def_lat,
                 long: divs.def_lon
             };
             endpoint = '/api/forecast/';
+            hide_error_in_connection_msg(); // Should it be visible beforehand then hide it before connecting to backend
         }
         
         const response = await fetch(endpoint, {
@@ -233,25 +211,18 @@ $(() => {
         });
 
         if (!response.ok) {
-            display_error_in_connection_msg();
-            throw new Error("Couldn't get response from backend");
+            if (look_up) {
+                display_not_found_msg();
+            } else {
+                display_error_in_connection_msg();
+            }
+            
+            throw new Error(response.statusText);
         }
         const json = await response.json();
         
         return json;
     };
-
-    // const retrieve_data = async function (url, lat, lon) {
-    //     //retrieves data from one call API and returns the response
-    //     /*One call API format
-    //         https://api.openweathermap.org/data/2.5/onecall?lat={lat}&lon={lon}&
-    //         exclude={part}&appid={YOUR API KEY}*/
-    //     if (!url) {
-    //         url = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&exclude=hourly,minutely&appid=f16f5069fd7086051ded89bf67c0c6e5`;
-    //     }
-    //     const the_response = await fetch('/api/data');
-    //     return the_response;
-    // };
 
     const display_error_in_connection_msg = () => removeIfExists(divs.no_connection, 'hidden');
 
@@ -259,7 +230,7 @@ $(() => {
 
     const hide_error_in_connection_msg = () => addIfNotExists(divs.no_connection, 'hidden');
 
-    const display_not_found_msg = () => removeIfExists(divs.no_connection, 'hidden');
+    const display_not_found_msg = () => removeIfExists(divs.not_found, 'hidden');
 
     const hide_not_found_msg = () => addIfNotExists(divs.not_found, 'hidden');
 
@@ -273,20 +244,11 @@ $(() => {
             .slice(0, 7)
             .split(':');
         let date_info =
-            '<p>' + hour + 'hr : ' + minute + 'min : ' + second + 'sec<br/>';
-        date_info += date + '/' + month + '/' + year + '</p>';
+            '<p>' + hour + ':' + minute + ':' + second + '<br/>';
+        date_info += date + '-' + month + '-' + year + '</p>';
         $('.date-text').html(date_info);
     };
     setInterval(date_div, 1000);
-
-    const update_copyright = (function () {
-        //A function to automatically update the copyright section of the page
-        const copy_div = $('#copy-rite');
-        const present = new Date().getFullYear();
-        if (present !== 2020) {
-            copy_div.innerHTML = 'WatchOut &copy 2020-' + present.toString();
-        }
-    })();
 
     const prev_dt = (function () {
         //generates an object that contains timestamps for the last four days
@@ -362,7 +324,7 @@ $(() => {
              * If retrieved_time doesn't exist in local storage, it means forecast data
              * have not been loaded or it has been cleared so we run the load_into_storage function
              * 
-             * Also, if last retrieved time isn,t today
+             * Also, if last retrieved time isn't today
              * 
              * And, if last retrieved time exceeds 3hrs
              */
@@ -377,25 +339,23 @@ $(() => {
 
     const page_load = (async function () {
         animate_click();
-        // navigator.geolocation.getCurrentPosition(
-        //     (position) => {
-        //         divs.def_lat = position.coords.latitude;
-        //         divs.def_lon = position.coords.longitude;
-        //         check_data_in_storage();
-        //     },
-        //     () => {
-        //         display_no_location_msg();
-        //     }
-        // );
+        navigator.geolocation.getCurrentPosition(
+            (position) => {
+                divs.def_lat = position.coords.latitude;
+                divs.def_lon = position.coords.longitude;
+                check_data_in_storage();
+            },
+            () => {
+                display_no_location_msg();
+            }
+        );
         
-        setTimeout(() => {
-            check_data_in_storage().finally(deanimate_click());
-        }, 6000);  
-    })().finally();
+        // setTimeout(() => {
+        //     check_data_in_storage().finally(deanimate_click());
+        // }, 1000);  
+    })().finally(deanimate_click());
 
     const process_search = async function (look_up, field) {
-        if (divs.search_field.classList.contains('loading-text'))
-            divs.search_field.classList.remove('loading-text');
         field.disabled = true;
         const modify_list = {
             'temp': '°C',
@@ -405,7 +365,7 @@ $(() => {
             'clouds': '%'
         };
         const search_result = await get_forecast_data(look_up);
-        const smash_next = document.querySelector('#smash_today_box');
+        const smash_next = forecast_html_markup(klass=['smash_box', 'my_card']);
         document.querySelector('#country_name_request').textContent = look_up;
         //Format response and make it ready for display
         let key = '';
@@ -435,31 +395,23 @@ $(() => {
             .querySelector('.details-weather')
             .querySelector('img')
             .setAttribute('src', icon_url);
-            // .catch(err => {
-            //     console.log(err);
-            // })
-            // .finally(() => {
-            //     field.value = '';
-            //     field.disabled = false;
+        
+        smash_next.querySelector('.details-time').textContent = '';
 
-            // });
+        if ($('#smash_request .smash_box').length) {
+            const html_content = $(smash_next).html();
+            $('#smash_request .smash_box').html(html_content);
+        } else {
+            $('#smash_request').append(smash_next);
+        }
+
+        addIfNotExists($('#smash-slides'), 'hidden');
+        removeIfExists($('#smash_request'), 'hidden');
+
+        
     };
     $('#back_btn').on('click', () => {
-        const smash_box = $('#smash_today_box');
-        const active = smash_box.getAttribute('data-active');
-        const weatherData = retrieve_from_storage();
-        show_full(weatherData[active]).then(() => {
-            deanimate_click();
-        });
-        myMove(smash_box, 50, 'previous'); //animate the display
-        document.querySelectorAll('.for_search').forEach((value) => {
-            if (contains(value, 'hidden')) {
-                value.classList.remove('hidden');
-            } else {
-                value.classList.add('hidden');
-            }
-        });
-        hide_not_found_msg();
+        $('#smash_request, #smash-slides').toggleClass('hidden');
     });
 
     $('#search-form').on('submit', (e) => {
@@ -468,24 +420,17 @@ $(() => {
 
     divs.search_field.on('keyup', function (e) {
         e.preventDefault();
-        addIfNotExists(divs.search_field, 'loading-text');
         if (divs.schedule_check) clearTimeout(divs.schedule_check);
         if (this.value) {
-            divs.schedule_check = setTimeout(() => {
+            divs.schedule_check = setTimeout((look_up, field) => {
                 animate_click();
-                process_search().catch(err => console.log(err)).finally(() => {
+                process_search(look_up, field).catch(err => console.log(err)).finally(() => {
                     this.value = '';
                     this.disabled = false;
                     deanimate_click();
                 });
-            }, 1500, this.value, this);
+            }, 1500, this.value, e.target);
         }
-    });
-
-    $('body').on('click', () => {
-        //Hide the generated search list and remove animation on search field on body click
-        removeIfExists(divs.search_field, 'loading-text');
-        addIfNotExists(divs.search_list, 'hidden');
     });
 
     // FOR TOGGLE FUNCTIONALITY IN ABOUT SECTION
@@ -497,10 +442,15 @@ $(() => {
     // FOR NAVBAR ACTIVE STATE FUNCTIONALITY
     $('a.nav-link').on('click', ev => {
         $('a.nav-link').removeClass('active');
-        $(ev.target).addClass('active');
+        const active_link = $(ev.target);
+        const target_div = active_link.attr('data-target');
+        active_link.addClass('active');
+        // console.log($(`#${target_div}`).text());
+        offset_section($(`#${target_div}`));
     });
 
     $(() => {
+        // Set active class on the right nav-link
         const page_url = location.href;
         if (page_url.includes('contact-section')) {
             $('.nav-contact').addClass('active')
@@ -509,8 +459,33 @@ $(() => {
         } else {
             $('.nav-forecast').addClass('active')
         }
+
+        // Offset the section, just so it displays properly
+        $('a.nav-link').each((index, link, array) => {
+            link = $(link);
+            if (link.hasClass('active')) {
+                link.click();
+                return false;
+            }
+        });
     });
 
+    const offset_section = (section) => {
+        // To make sure no content is hidden behind the header
+        const header_height = 170;
+        const position = section.offset().top - header_height;
+        $('html,body').animate({ scrollTop: position, color: 'green' }, 'slow');
+    }
+
     // END OF NAVBAR FUNCTIONALITY
+
+    (function () {
+        //A function to automatically update the copyright section of the page
+        const copy_div = $('#smash_credits p');
+        const present = new Date().getFullYear();
+        if (present !== 2020) {
+            copy_div.text('WatchOut &copy 2020-' + present.toString());
+        }
+    })();
 
 });

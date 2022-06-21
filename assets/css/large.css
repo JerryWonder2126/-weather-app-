@@ -3,9 +3,6 @@
         width: 10vw;
         /* margin: 20px 30px; */
     }
-    #smash_boxes, #smash_request{
-        flex-grow: 3;
-    }
     #smash_request h2{
         text-align: center;
     }

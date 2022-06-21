@@ -25,20 +25,20 @@
 					</button>
 					<div class="collapse navbar-collapse" id="navbarText">
 						<nav class="navbar-nav mr-auto">
-							<a class="nav-link nav-forecast" href="#">View Forecast</a>
-							<a class="nav-link nav-about" href="#about-section">About</a>
-							<a class="nav-link nav-contact" href="#contact-section">Contact</a>
+							<a class="nav-link nav-forecast" data-target="slides-section" href="#">View Forecast</a>
+							<a class="nav-link nav-about" data-target="about-section" href="#about-section">About</a>
+							<a class="nav-link nav-contact" data-target="contact-section" href="#contact-section">Contact</a>
 							<!-- <a class="nav-link disabled" href="#">Disabled</a> -->
 						</nav>
 					</div>
-					<!-- <div class="hidden">
-						<div class="hidden">
+					<div class="">
+						<div class="">
 							<form class="form-inline">
 								<input id="search-text" name="search" autocomplete="off" class="form-control search-input-text" type="search" placeholder="Search" aria-label="Search">
 							</form>
 						</div>
 						<div class="text-white navbar-text date-text">Today's Date</div>
-					</div> -->
+					</div>
 				</nav>
 			</header>
 			<div class="container-fluid">
@@ -96,7 +96,7 @@
 								<!-- This section displays forecast data after a user makes a search -->
 								<button id="back_btn" class="back-btn">Back</button>
 								<h2 id="data_dt">Today's Weather Conditions in
-									<span id='country_name_request'>lert</span>.
+									<span id='country_name_request'></span>.
 								</h2>
 								<!-- content will be loaded from script when user makes a search -->
 							</section>
@@ -171,7 +171,7 @@
 
 			<div class="container-fluid p-0 m-0">
 				<footer>
-					<div id="smash_credits text-white">
+					<div id="smash_credits" class="text-white">
 						<p>WatchOut &copy 2020</p>
 					</div>
 					<div class="social-icons">
@@ -183,7 +183,7 @@
 				</footer>
 			</div>
 		</div>
-		<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+		<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 		<!-- <script src="/js/jquery-3.6.0.min.js"></script>
