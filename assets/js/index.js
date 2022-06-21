@@ -2,7 +2,7 @@
 /* eslint-disable */
 
 $(() => {
-    const LOCATION_GRANTED = false;
+    let LOCATION_GRANTED = false;
     const divs = {
         def_lat: 74, //default longitude, just in case IP data API is unavailable
         def_lon: -31, //default longitude, just in case IP data API is unavailable
@@ -318,7 +318,9 @@ $(() => {
                 divs.def_lat = position.coords.latitude;
                 divs.def_lon = position.coords.longitude;
                 await check_data_in_storage();
-                deanimate_click()
+                $('#smash-slides').removeClass('hidden');
+                LOCATION_GRANTED = true; // Change access to location status, if successful. Default is false.
+                deanimate_click();
             },
             () => {
                 display_no_location_msg();
@@ -376,11 +378,15 @@ $(() => {
             $('#smash_request').append(smash_next);
         }
     };
-    $('#back_btn').on('click', () => {
-        $('#smash_request, #smash-slides').toggleClass('hidden');
+    $('#back_btn, .close-btn').on('click', () => {
+        addIfNotExists($('#smash_request'), 'hidden');
+        addIfNotExists(divs.not_found, 'hidden'); // Hide not found message, should incase an error occured
         if (!LOCATION_GRANTED) {
+            // Location not granted, show no_location error
             removeIfExists(divs.no_location, 'hidden');
-            addIfNotExists(divs.not_found, 'hidden');
+        } else {
+            // If location was granted, then show slides
+            removeIfExists($('#smash-slides'), 'hidden');
         }
     });
 
@@ -392,19 +398,19 @@ $(() => {
         try {
             field.disabled = true;
             animate_click();
+            closeMenu(); // Should it be opened previously. (Mainly applies to mobiles)
             await runSearch(look_up, field);
+            // Display search result or empty div in the case of an error
+            addIfNotExists($('#smash-slides'), 'hidden');
+            removeIfExists($('#smash_request'), 'hidden');
         } catch (err) {
             console.log(err);
         } finally {
             field.value = '';
             field.disabled = false;
-            
-            // Display search result or empty div in the case of an error
-            addIfNotExists($('#smash-slides'), 'hidden');
-            removeIfExists($('#smash_request'), 'hidden');
 
             if (!$('a.nav-forecast').hasClass('active')) {
-                // Shift display so that data is in view
+                // Shift display so that forecast area is in view
                 $('a.nav-forecast').trigger('click');
             }
 
@@ -424,6 +430,15 @@ $(() => {
     $('.extra-about-text').toggle(); // Hide the extra part by default
     $('.toggler').on('click', ev => {
         $('.main-about-text, .extra-about-text').toggle('slow');
+    });
+
+    $('a.contact-link').on('click', ev => {
+        // Simply to offset contact section when link is clicked from about section
+        const active_link = $(ev.target);
+        const target_div = active_link.attr('data-target');
+        active_link.addClass('active');
+        offset_section($(`#${target_div}`));    // Offset section just so it displays properly
+        $('input[type=email]').trigger('focusin'); // Set focus on the email field
     });
 
     // FOR NAVBAR ACTIVE STATE FUNCTIONALITY
@@ -472,7 +487,7 @@ $(() => {
     }
 
     // Close menu on body scroll, didn't work with jquery
-    document.addEventListener('scroll', closeMenu(), true);
+    document.addEventListener('click', closeMenu(), true);
 
     // END OF NAVBAR FUNCTIONALITY
 
