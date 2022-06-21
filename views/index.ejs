@@ -19,26 +19,30 @@
 		<div id="smash_container">
 			<header>
 				<nav class="navbar navbar-expand-md navbar-dark master-nav">
-					<a class="navbar-brand"><img class="logo-img" src="/extras/wap_logo.png" alt="Site logo"></a>
-					<button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+					<a class="navbar-brand" href="#"><img class="logo-img" src="/extras/wap_logo.png" alt="WatchOut logo"></a>
+					<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
 					  <span class="navbar-toggler-icon"></span>
 					</button>
 					<div class="collapse navbar-collapse" id="navbarText">
-						<nav class="navbar-nav mr-auto">
+						<div class="navbar-nav mr-auto">
 							<a class="nav-link nav-forecast" data-target="slides-section" href="#">View Forecast</a>
 							<a class="nav-link nav-about" data-target="about-section" href="#about-section">About</a>
 							<a class="nav-link nav-contact" data-target="contact-section" href="#contact-section">Contact</a>
 							<!-- <a class="nav-link disabled" href="#">Disabled</a> -->
-						</nav>
+						</div>
+						<form class="form-inline">
+							<input id="search-text" name="search" autocomplete="off" class="form-control search-input-text" type="search" placeholder="Search" aria-label="Search">
+						</form>
 					</div>
-					<div class="">
+					<!-- <div class="">
 						<div class="">
 							<form class="form-inline">
 								<input id="search-text" name="search" autocomplete="off" class="form-control search-input-text" type="search" placeholder="Search" aria-label="Search">
 							</form>
 						</div>
 						<div class="text-white navbar-text date-text">Today's Date</div>
-					</div>
+					</div> -->
+					
 				</nav>
 			</header>
 			<div class="container-fluid">
@@ -128,10 +132,10 @@
 							<br><br>
 							I hope you love this, I'll love to get feedbacks from you. Kindly go to the <a class="social-connect" href="#contact-section">contact section</a> and hit me with your feedbacks.
 							You can also connect with me on 
-							<a href="#" class="social-connect" target="_blank">facebook</a>,
-							<a href="#" class="social-connect" target="_blank">twitter</a>,
-							<a href="#" class="social-connect" target="_blank">whatsapp</a>, or
-							<a href="#" class="social-connect" target="_blank">LinkedIn.</a><br><br>
+							<a href="/connect/?network=facebook" class="social-connect" target="_blank">facebook</a>,
+							<a href="/connect/?network=twitter" class="social-connect" target="_blank">twitter</a>,
+							<a href="/connect/?network=whatsapp" class="social-connect" target="_blank">whatsapp</a>, or
+							<a href="/connect/?network=linkedIn" class="social-connect" target="_blank">LinkedIn.</a><br><br>
 							<span class="toggler" data-location="extra-about-text" aria-expanded="false">show less...</span>
 						</p>
 					</div>
@@ -175,10 +179,10 @@
 						<p>WatchOut &copy 2020</p>
 					</div>
 					<div class="social-icons">
-						<a href="#"><img src="/extras/github.png" class="social-icon" alt="DevWonder github profile"></a>
-						<a href="#"><img src="/extras/linkedin.png" class="social-icon" alt="DevWonder linkedin profile"></a>
-						<a href="#"><img src="/extras/whatsapp.png" class="social-icon" alt="DevWonder whatsapp profile"></a>
-						<a href="#"><img src="/extras/twitter.png" class="social-icon" alt="DevWonder github profile"></a>
+						<a href="/connect/?network=github" target="_blank"><img src="/extras/github.png" class="social-icon" alt="DevWonder github profile"></a>
+						<a href="/connect/?network=linkedIn" target="_blank"><img src="/extras/linkedin.png" class="social-icon" alt="DevWonder linkedin profile"></a>
+						<a href="/connect/?network=whatsapp" target="_blank"><img src="/extras/whatsapp.png" class="social-icon" alt="DevWonder whatsapp profile"></a>
+						<a href="/connect/?network=twitter" target="_blank"><img src="/extras/twitter.png" class="social-icon" alt="DevWonder github profile"></a>
 					</div>
 				</footer>
 			</div>
