@@ -61,7 +61,7 @@ router.get('/connect/', (req: Request, res: Response) => {
   res.end();
 });
 
-router.get('info/', (req: Request, res: Response) => {
+router.get('/info/', (req: Request, res: Response) => {
   res.json({ok: 'True'});
   res.end();
 });
