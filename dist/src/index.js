@@ -6,8 +6,8 @@ const bodyParser = require("body-parser");
 const dotenv = require("dotenv");
 const controller_1 = require("./controllers/controller");
 const path = require("path");
-const app = express();
 dotenv.config();
+const app = express();
 app.use(bodyParser.json());
 let staticFolder = '../assets';
 if (process.env['PRODUCTION_MODE']) {
@@ -16,7 +16,8 @@ if (process.env['PRODUCTION_MODE']) {
 app.use(express.static(path.join(__dirname, staticFolder)));
 app.set('view engine', 'ejs');
 app.use('/', controller_1.router);
-app.listen(process.env.port || 8000, () => {
+const port = process.env.port || 8000;
+app.listen(port, () => {
     console.log('App started. Listening on port 8000');
 });
 //# sourceMappingURL=index.js.map
