@@ -12,7 +12,12 @@ dotenv.config();
 
 app.use(bodyParser.json());
 
-app.use(express.static(path.join(__dirname, '../assets')));
+let staticFolder = '../assets';
+if (process.env['PRODUCTION_MODE']) {
+  staticFolder = '../../assets';
+}
+
+app.use(express.static(path.join(__dirname, staticFolder)));
 
 app.set('view engine', 'ejs');
 

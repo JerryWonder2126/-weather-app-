@@ -5,8 +5,9 @@
   "main": "src/index.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "npx tsc src/index.ts",
-    "start": "nodemon",
+    "build": "npx tsc",
+    "start:dev": "nodemon",
+    "start": "node dist/src/index.js",
     "lint": "gts lint",
     "clean": "gts clean",
     "compile": "tsc",
@@ -44,5 +45,8 @@
     "express": "^4.17.2",
     "jquery": "^3.6.0",
     "jsdom": "^19.0.0"
+  },
+  "engines": {
+    "node": "v16.13.2"
   }
 }
