@@ -8,12 +8,11 @@ import path = require('path');
 
 const app = express();
 
-dotenv.config();
-
 app.use(bodyParser.json());
 
 let staticFolder = '../assets';
 if (process.env['PRODUCTION_MODE']) {
+  dotenv.config();
   staticFolder = '../../assets';
 }
 
