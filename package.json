@@ -11,8 +11,7 @@
     "lint": "gts lint",
     "clean": "gts clean",
     "compile": "tsc",
-    "fix": "gts fix",
-    "postinstall": "npm run build"
+    "fix": "gts fix"
   },
   "repository": {
     "type": "git",
