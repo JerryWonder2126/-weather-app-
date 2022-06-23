@@ -1,0 +1,22 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const express = require("express");
+const bodyParser = require("body-parser");
+// eslint-disable-next-line node/no-unpublished-import
+const dotenv = require("dotenv");
+const controller_1 = require("./controllers/controller");
+const path = require("path");
+const app = express();
+dotenv.config();
+app.use(bodyParser.json());
+let staticFolder = '../assets';
+if (process.env['PRODUCTION_MODE']) {
+    staticFolder = '../../assets';
+}
+app.use(express.static(path.join(__dirname, staticFolder)));
+app.set('view engine', 'ejs');
+app.use('/', controller_1.router);
+app.listen(process.env.port || 8000, () => {
+    console.log('App started. Listening on port 8000');
+});
+//# sourceMappingURL=index.js.map
