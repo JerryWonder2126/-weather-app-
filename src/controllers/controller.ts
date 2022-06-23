@@ -61,11 +61,6 @@ router.get('/connect/', (req: Request, res: Response) => {
   res.end();
 });
 
-router.get('/info/', (req: Request, res: Response) => {
-  res.json({ok: 'True'});
-  res.end();
-});
-
 // const retrieve_data = async function (url: string, lat?: number, lon?: number) {
 //   //retrieves data from one call API and returns the response
 //   /*One call API format
