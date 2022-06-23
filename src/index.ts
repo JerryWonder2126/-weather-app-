@@ -23,7 +23,7 @@ app.set('view engine', 'ejs');
 
 app.use('/', router);
 
-const port = process.env.port || 8000;
+const port = process.env.PORT || 8000;
 
 app.listen(port, () => {
   console.log(`App started. Listening on port ${port}`);
