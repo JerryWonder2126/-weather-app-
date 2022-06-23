@@ -26,5 +26,5 @@ app.use('/', router);
 const port = process.env.port || 8000;
 
 app.listen(port, () => {
-  console.log('App started. Listening on port 8000');
+  console.log(`App started. Listening on port ${port}`);
 });
