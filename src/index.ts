@@ -12,12 +12,13 @@ const app = express();
 
 app.use(bodyParser.json());
 
-let staticFolder = '../assets';
+let BASE_DIR = path.join(__dirname, '../');
+
 if (process.env['PRODUCTION_MODE']) {
-  staticFolder = '../../assets';
+  BASE_DIR = path.join(__dirname, '../../');
 }
 
-app.use(express.static(path.join(__dirname, staticFolder)));
+app.use(express.static(path.join(BASE_DIR, '/assets')));
 
 app.set('view engine', 'ejs');
 
