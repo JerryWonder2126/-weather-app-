@@ -53,24 +53,11 @@ router.get('/connect/', (req: Request, res: Response) => {
       throw new Error('Invalid request.');
     }
     const link = socialLinks[network as IConnect];
-    // res.sendStatus(200);
     res.redirect(link);
   } catch (err) {
     res.sendStatus(403);
   }
   res.end();
 });
-
-// const retrieve_data = async function (url: string, lat?: number, lon?: number) {
-//   //retrieves data from one call API and returns the response
-//   /*One call API format
-//       https://api.openweathermap.org/data/2.5/onecall?lat={lat}&lon={lon}&
-//       exclude={part}&appid={YOUR API KEY}*/
-//   if (!url.length && lat && lon) {
-//     url = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&exclude=hourly,minutely&appid=${process.env.OPEN_WEATHER_API_KEY}`;
-//   }
-//   const the_response = await fetch(url);
-//   return the_response;
-// };
 
 export {router};
