@@ -427,9 +427,10 @@ $(() => {
     });
 
     // FOR TOGGLE FUNCTIONALITY IN ABOUT SECTION
-    $('.extra-about-text').toggle(); // Hide the extra part by default
+    $('.extra-about-text, .extra-about-header, .extra-about-img').toggle(); // Hide the extra part by default
     $('.toggler').on('click', ev => {
-        $('.main-about-text, .extra-about-text').toggle('slow');
+        $('.main-about-text, .main-about-header, .main-about-img, .extra-about-text, .extra-about-header, .extra-about-img').toggle('slow');
+        offset_section($('#about-section'));
     });
 
     $('a.contact-link').on('click', ev => {
@@ -486,7 +487,7 @@ $(() => {
         }
     }
 
-    // Close menu on body scroll, didn't work with jquery
+    // Close menu on body scroll, didn't work with jquery & not working still
     document.addEventListener('click', closeMenu(), true);
 
     // END OF NAVBAR FUNCTIONALITY

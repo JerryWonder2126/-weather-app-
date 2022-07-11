@@ -8,7 +8,6 @@
 		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lobster&display=swap" />
 		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Xanh Mono&display=swap" />
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-		<!-- <link rel="stylesheet" href="/css/bootstrap.min.css"/> -->
 		<link rel="stylesheet" href="/css/index.css"/>
 		<link rel="stylesheet" href="/css/large.css"/>
 		<link rel="stylesheet" href="/css/small.css"/>
@@ -28,7 +27,6 @@
 							<a class="nav-link nav-forecast" data-target="slides-section" href="#">View Forecast</a>
 							<a class="nav-link nav-about" data-target="about-section" href="#about-section">About</a>
 							<a class="nav-link nav-contact" data-target="contact-section" href="#contact-section">Contact</a>
-							<!-- <a class="nav-link disabled" href="#">Disabled</a> -->
 						</div>
 						<form class="form-inline">
 							<input id="search-text" name="search" autocomplete="off" class="form-control search-input-text" type="search" placeholder="Search" aria-label="Search">
@@ -100,13 +98,20 @@
 				</div>
 				<div class="row align-items-center smash-about-section" id="about-section">
 					<div class="col-12 d-block d-md-none">
-						<h2 class="">About WatchOut</h2>
+						<h2 class="main-about-header">About WatchOut</h2>
+						<h2 class="extra-about-header">About Me</h2>
 					</div>
-					<div class="col-12 col-md-6 col-lg-5 my-2 display-img">
-						<img class="img-fluid" src="/extras/smash owner.jpg"/>
+					<div class="col-12 col-md-6 col-lg-5 my-2">
+						<div class="display-img">
+							<img class="img-fluid main-about-img" src="/extras/about1.svg"/>
+							<img class="img-fluid extra-about-img" src="/extras/smash owner.jpg"/>
+						</div>
 					</div>
 					<div class="col-12 col-md-6 col-lg-7">
-						<h2 class="d-none d-md-block">About WatchOut</h2>
+						<div class="d-none d-md-block">
+							<h2 class="main-about-header">About WatchOut</h2>
+							<h2 class="extra-about-header">About Me</h2>	
+						</div>					
 						<p class="text-light text-justify main-about-text">
 							WatchOut is a simple website built to help anyone in the world get information on what the weather
 							condition in his/her area will look like. Thanks to OpenWeatherAPI, you can easily access up to 7 days of
@@ -121,7 +126,7 @@
 							React, Logging and testing too. So, I am kind of like a junior fullstack developer. I look forward to writing great projects and 
 							working with a software company someday, already on the hunt.
 							<br><br>
-							I hope you love this, I'll love to get feedbacks from you. Kindly go to the <a class="social-connect contact-link" data-target="contact-section" href="#contact-section">contact section</a> and hit me with your feedbacks.
+							I hope you love this, I'll love to get feedbacks from you. Kindly go to the <a class="social-connect contact-link" data-target="contact-section" href="#contact-section">contact section</a> to hit me with your feedbacks.
 							You can also connect with me on 
 							<a href="/connect/?network=facebook" class="social-connect" target="_blank">facebook</a>,
 							<a href="/connect/?network=twitter" class="social-connect" target="_blank">twitter</a>,
@@ -182,8 +187,6 @@
 		<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-		<!-- <script src="/js/jquery-3.6.0.min.js"></script>
-		<script src="/js/bootstrap.bundle.min.js"></script> -->
 		<script src="/js/index.js"></script>
 	</body>
 </html>
