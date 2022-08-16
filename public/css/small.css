@@ -36,7 +36,7 @@
         width: 120px;
     }
     /*Formatting for forecasts gotten from API*/
-    .details-time{
+    /* .details-time{
         text-align: end;
     }
     .details-header{
@@ -51,13 +51,17 @@
     .details-icon{
         margin: -40px -40px -40px -20px;
         display: inline;
-    }
+    } */
 
     .smash-about-section {
         /* background-image: url(/extras/about1.svg); */
         background-repeat: no-repeat;
         background-size: contain;
         background-position: center;
+    }
+
+    .carousel-control-prev, .carousel-control-next {
+        display: none!important;
     }
     
 }

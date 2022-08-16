@@ -18,7 +18,7 @@ if (process.env['PRODUCTION_MODE']) {
   BASE_DIR = path.join(__dirname, '../../');
 }
 
-app.use(express.static(path.join(BASE_DIR, '/assets')));
+app.use(express.static(path.join(BASE_DIR, '/public')));
 
 app.set('view engine', 'ejs');
 

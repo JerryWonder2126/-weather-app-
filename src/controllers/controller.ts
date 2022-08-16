@@ -41,10 +41,10 @@ router.post('/api/search/', async (req: Request, res: Response) => {
 
 router.get('/connect/', (req: Request, res: Response) => {
   const socialLinks = {
-    facebook: 'https://facebook.com',
-    whatsapp: 'https://whatsapp.com',
-    linkedIn: 'https://linkedin.com',
-    twitter: 'https://twitter.com',
+    github: 'https://github.com/JerryWonder2126',
+    whatsapp: 'https://wa.link/b8t54g',
+    linkedIn: 'https://linkedin.com/in/devwonder',
+    twitter: 'https://twitter.com/JosephJSJeremi1',
   };
   type IConnect = keyof typeof socialLinks;
   const network = req.query['network'] as string;

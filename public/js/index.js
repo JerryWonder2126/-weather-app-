@@ -37,14 +37,16 @@ $(() => {
 
     const animate_click = async function () {
         removeIfExists($('#loader'), 'hidden');
-        removeIfExists($('.dim'), 'hidden');
+        addIfNotExists($('#loader'), 'visible');
+        addIfNotExists($('body'), 'noscroll');
+
 
     }
 
     const deanimate_click = function () {
         addIfNotExists($('#loader'), 'hidden');
-        addIfNotExists($('.dim'), 'hidden'); 
-
+        removeIfExists($('#loader'), 'visible');
+        removeIfExists($('body'), 'noscroll');
     }
 
     const proc_gmt = function (time_stamp) {
@@ -113,31 +115,51 @@ $(() => {
         return res;
     };
 
-    const show_full = async function (response) {
-        let data = response;    //turn response into an object
-        let retrieved_time = localStorage.getItem("retrieved_time");
-        // Create DOM element for display
-        smash_next = forecast_html_markup(klass=['carousel-item', 'smash_box', 'my_card']);
-        smash_next.querySelector("h2").textContent = proc_gmt_days(data.dt*1000);
-        let time = proc_gmt(Number(retrieved_time));
-        //Format response and make it ready for display
-        let key = "";
-        smash_next.querySelectorAll(".details-basic").forEach(function(value,index,array){
-            key = value.querySelector(".details-content").getAttribute("data-name");
-            value.querySelector(".details-content").textContent = data[key];
-        });
-        smash_next.querySelector(".details-weather")
-        .querySelectorAll(".details-content").forEach(function(value, index, array){
-            key = value.getAttribute("data-name");
-            value.textContent = data.weather[0][key];
-        });
-        let icon_url = `http://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png`;
-        smash_next.querySelector(".details-weather").querySelector("img").setAttribute("src", icon_url);
-        smash_next.querySelector(".details-time").querySelector(".details-content").textContent = time;
-        return smash_next;
+    // const show_full = async function (response) {
+    //     let data = response;    //turn response into an object
+    //     let retrieved_time = localStorage.getItem("retrieved_time");
+    //     // Create DOM element for display
+    //     smash_next = forecast_html_markup(klass=['carousel-item', 'smash_box', 'my_card']);
+    //     smash_next.querySelector("h2").textContent = proc_gmt_days(data.dt*1000);
+    //     let time = proc_gmt(Number(retrieved_time));
+    //     //Format response and make it ready for display
+    //     let key = "";
+    //     smash_next.querySelectorAll(".details-basic").forEach(function(value,index,array){
+    //         key = value.querySelector(".details-content").getAttribute("data-name");
+    //         value.querySelector(".details-content").textContent = data[key];
+    //     });
+    //     smash_next.querySelector(".details-weather")
+    //     .querySelectorAll(".details-content").forEach(function(value, index, array){
+    //         key = value.getAttribute("data-name");
+    //         value.textContent = data.weather[0][key];
+    //     });
+    //     let icon_url = `http://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png`;
+    //     smash_next.querySelector(".details-weather").querySelector("img").setAttribute("src", icon_url);
+    //     return smash_next;
+    // };
+
+    const getDayNameFromTimestamp = (timestamp) => {
+        let days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+        let dayIndex = new Date(timestamp).getDay();
+        return days[dayIndex];
     }
 
-    let update_slide_indicator = function(count){
+    const show_full = async function (data) {
+        // Create DOM element for display
+        smash_next = forecast_html_markup(klass=['carousel-item', 'smash-box']);
+        //Format response and make it ready for display
+        smash_next.querySelector(".weather-day").textContent = getDayNameFromTimestamp(data.dt*1000);
+        let icon_url = `http://openweathermap.org/img/wn/${data.weather[0].icon}@4x.png`;
+        smash_next.querySelector(".details-icon").setAttribute("src", icon_url);
+        smash_next.querySelector(".weather-info-text").textContent =  data.weather[0]['description'];
+        smash_next.querySelectorAll(".details-info-item > .details-content").forEach(value => {
+            let key = value.getAttribute("data-name");
+            value.textContent = data[key];
+        })
+        return smash_next;
+    };
+
+    let update_slide_indicator = function(count) {
         //Simply to update the indicator in the slider
         let node_obj = create_dom_elem('li');
         $(node_obj).attr('data-target', "#smash-slides");
@@ -213,6 +235,7 @@ $(() => {
         if (!response.ok) {
             if (look_up) {
                 display_not_found_msg();
+                addIfNotExists($('#smash_request'), 'hidden');
                 if (!LOCATION_GRANTED) {
                     // This means error in connection message is visible, hide it
                     hide_no_location_msg();
@@ -327,6 +350,9 @@ $(() => {
                 deanimate_click()
             }
         ); 
+    //     load_sliders();
+    //     $('#smash-slides').removeClass('hidden');
+    //     deanimate_click();
     });
 
     const runSearch = async function (look_up) {
@@ -338,42 +364,53 @@ $(() => {
             'clouds': '%'
         };
         const search_result = await get_forecast_data(look_up);
-        const smash_next = forecast_html_markup(klass=['smash_box', 'my_card']);
+        console.log(search_result);
+        const smash_next = forecast_html_markup(klass=['smash-box', 'search-result']);
         document.querySelector('#country_name_request').textContent = look_up;
         //Format response and make it ready for display
-        let key = '';
-        smash_next
-            .querySelectorAll('.details-basic')
-            .forEach((value, index, array) => {
-                key = value
-                    .querySelector('.details-content')
-                    .getAttribute('data-name');
-                if (key === 'clouds') {
-                    value.querySelector('.details-content').textContent =
-                        search_result.clouds.all + modify_list[key];
-                } else {
-                    value.querySelector('.details-content').textContent =
-                        search_result.main[key] + modify_list[key];
-                }
-            });
-        smash_next
-            .querySelector('.details-weather')
-            .querySelectorAll('.details-content')
-            .forEach((value, index, array) => {
-                key = value.getAttribute('data-name');
-                value.textContent = search_result.weather[0][key];
-            });
-        const icon_url = `http://openweathermap.org/img/wn/${search_result.weather[0].icon}@2x.png`;
-        smash_next
-            .querySelector('.details-weather')
-            .querySelector('img')
-            .setAttribute('src', icon_url);
-        
-        smash_next.querySelector('.details-time').textContent = '';
+        smash_next.querySelector(".weather-day").textContent = getDayNameFromTimestamp(search_result.dt*1000);
+        let icon_url = `http://openweathermap.org/img/wn/${search_result.weather[0].icon}@4x.png`;
+        smash_next.querySelector(".details-icon").setAttribute("src", icon_url);
+        smash_next.querySelector(".weather-info-text").textContent =  search_result.weather[0]['description'];
+        smash_next.querySelectorAll(".details-info-item > .details-content").forEach(value => {
+            let key = value.getAttribute("data-name");
+            if (key === 'clouds') {
+                value.textContent = search_result.clouds.all + modify_list[key];
+            } else {
+                value.textContent = search_result.main[key] + modify_list[key];
+            }
+        });
+        // let key = '';
+        // smash_next
+        //     .querySelectorAll('.details-basic')
+        //     .forEach(value => {
+        //         key = value
+        //             .querySelector('.details-content')
+        //             .getAttribute('data-name');
+        //         if (key === 'clouds') {
+        //             value.querySelector('.details-content').textContent =
+        //                 search_result.clouds.all + modify_list[key];
+        //         } else {
+        //             value.querySelector('.details-content').textContent =
+        //                 search_result.main[key] + modify_list[key];
+        //         }
+        //     });
+        // smash_next
+        //     .querySelector('.details-weather')
+        //     .querySelectorAll('.details-content')
+        //     .forEach(value => {
+        //         key = value.getAttribute('data-name');
+        //         value.textContent = search_result.weather[0][key];
+        //     });
+        // const icon_url = `http://openweathermap.org/img/wn/${search_result.weather[0].icon}@2x.png`;
+        // smash_next
+        //     .querySelector('.details-weather')
+        //     .querySelector('img')
+        //     .setAttribute('src', icon_url);
 
-        if ($('#smash_request .smash_box').length) {
+        if ($('#smash_request .smash-box').length) {
             const html_content = $(smash_next).html();
-            $('#smash_request .smash_box').html(html_content);
+            $('#smash_request .smash-box').html(html_content);
         } else {
             $('#smash_request').append(smash_next);
         }
@@ -404,7 +441,7 @@ $(() => {
             addIfNotExists($('#smash-slides'), 'hidden');
             removeIfExists($('#smash_request'), 'hidden');
         } catch (err) {
-            console.log(err);
+            console.error(err);
         } finally {
             field.value = '';
             field.disabled = false;
@@ -427,9 +464,13 @@ $(() => {
     });
 
     // FOR TOGGLE FUNCTIONALITY IN ABOUT SECTION
-    $('.extra-about-text, .extra-about-header, .extra-about-img').toggle(); // Hide the extra part by default
+    $('.smash-about-me-section').fadeOut(100); // Hide the extra part by default
     $('.toggler').on('click', ev => {
-        $('.main-about-text, .main-about-header, .main-about-img, .extra-about-text, .extra-about-header, .extra-about-img').toggle('slow');
+        const location = $(ev.target).attr('data-location');
+        let fadeInElements = location === 'extra-about-text' ? '.smash-about-main-section' : '.smash-about-me-section';
+        let fadeOutElements = location === 'extra-about-text' ? '.smash-about-me-section' : '.smash-about-main-section';
+        $(fadeInElements).fadeIn(1000);
+        $(fadeOutElements).fadeOut(1000);
         offset_section($('#about-section'));
     });
 
