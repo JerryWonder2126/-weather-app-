@@ -3,7 +3,11 @@
 	<head>
 		<meta name="viewport" content="width=device-width,initial-scale=1" />
 		<meta charset="utf-8" />
-		<title>Smash It.smash</title>
+		<title>WatchOut</title>
+		<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+		<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+		<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+		<link rel="manifest" href="/site.webmanifest">
 		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Modak&display=swap" />
 		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lobster&display=swap" />
 		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Xanh Mono&display=swap" />
@@ -14,7 +18,6 @@
 	</head>
 	<body>
 		<div id="loader" class="hidden"></div>
-		<div class="hidden dim"></div>
 		<div id="smash_container">
 			<header>
 				<nav class="navbar navbar-expand-md navbar-dark master-nav">
@@ -29,7 +32,7 @@
 							<a class="nav-link nav-contact" data-target="contact-section" href="#contact-section">Contact</a>
 						</div>
 						<form class="form-inline">
-							<input id="search-text" name="search" autocomplete="off" class="form-control search-input-text" type="search" placeholder="Search" aria-label="Search">
+							<input id="search-text" name="search" class="form-control search-input-text" type="search" placeholder="Enter city name here" aria-label="Search">
 						</form>
 					</div>
 				</nav>
@@ -51,6 +54,28 @@
 									</a>
 							</div>
 							<div class="smash_box_template hidden">
+								<div class="details-basic">
+									<img class="details-icon" alt="graphical representation of weather condition"/>
+									<p class="weather-day"></p>
+								</div>
+								<div class="details-info">
+									<h2 class="weather-info-text"></h2>
+									<!-- <h4 class="weather-temp"></h4> -->
+									<p class="details-info-item">
+										<span class="details-title">Temperature:</span>
+										<span data-name="feels_like" class="details-content"></span>
+									</p>
+									<p class="details-info-item">
+										<span class="details-title">Clouds:</span>
+										<span data-name="clouds" class="details-content"></span>
+									</p>
+									<p class="details-info-item">
+										<span class="details-title">Humidity:</span>
+										<span data-name="humidity" class="details-content"></span>
+									</p>
+								</div>
+							</div>
+							<div class="smash_box_templat hidden">
 								<h2></h2>
 								<h3 class="details-header">Basic Details</h3>
 								<p class="details-basic">
@@ -80,10 +105,6 @@
 									<span data-name="description" class="details-content"></span>
 									<img class="details-icon" src="" alt="icon">
 								</p>
-								<div class="details-time">
-									<span class="details-title">Last Update From Server:</span>
-									<span data-name="time" data-name="pressure" class="details-content"></span>
-								</div>
 							</div>
 							<section id="smash_request" class="hidden">
 								<!-- This section displays forecast data after a user makes a search -->
@@ -96,44 +117,58 @@
 						</main>
 					</div>
 				</div>
-				<div class="row align-items-center smash-about-section" id="about-section">
-					<div class="col-12 d-block d-md-none">
-						<h2 class="main-about-header">About WatchOut</h2>
-						<h2 class="extra-about-header">About Me</h2>
-					</div>
-					<div class="col-12 col-md-6 col-lg-5 my-2">
-						<div class="display-img">
-							<img class="img-fluid main-about-img" src="/extras/about1.svg"/>
-							<img class="img-fluid extra-about-img" src="/extras/smash owner.jpg"/>
+				<div id="about-section">
+					<div class="row align-items-center smash-about-section smash-about-main-section">
+						<div class="col-12 d-block d-md-none">
+							<h2 class="main-about-header">About WatchOut</h2>
+						</div>
+						<div class="col-12 col-md-6 col-lg-5 my-2">
+							<div class="display-img">
+								<img class="img-fluid main-about-img" src="/extras/about1.svg"/>
+							</div>
+						</div>
+						<div class="col-12 col-md-6 col-lg-7">
+							<div class="d-none d-md-block">
+								<h2 class="main-about-header">About WatchOut</h2>	
+							</div>					
+							<p class="text-justify main-about-text">
+								WatchOut is a simple website built to help anyone in the world get information on what the weather
+								condition in his/her area will look like. Thanks to OpenWeatherAPI, you can easily access up to 7 days of
+								weather forecast data here on WatchOut. <br><br>You want to go visit an area and you want to know what the weather condition is like there?
+								Simply use the search box on the header.<br><br>Want to know about me?😎
+								<span class="toggler btn" data-location="main-about-text" aria-expanded="false">click here...</span>
+							</p>
 						</div>
 					</div>
-					<div class="col-12 col-md-6 col-lg-7">
-						<div class="d-none d-md-block">
-							<h2 class="main-about-header">About WatchOut</h2>
-							<h2 class="extra-about-header">About Me</h2>	
-						</div>					
-						<p class="text-light text-justify main-about-text">
-							WatchOut is a simple website built to help anyone in the world get information on what the weather
-							condition in his/her area will look like. Thanks to OpenWeatherAPI, you can easily access up to 7 days of
-							weather forecast data here on WatchOut. <br><br>You want to go visit an area and you want to know what the weather condition is like there?
-							Simply use the search box on the header.<br><br>Want to know about me?😎
-							<span class="toggler" data-location="main-about-text" aria-expanded="false">click here...</span>
-						</p>
-						<p class="text-light text-justify extra-about-text">
-							I am Jeremiah Joseph, a fullstack web developer. I started my web development journey recently (early 2019) and I have been
-							working on projects like this one to better hone my skills but unlike the others, I'm deploying this to a live server.
-							I have foundational knowledge with Python, Node, SQL, JavaScript, Bootstrap & Jquery, but still looking forward to learning Agile, 
-							React, Logging and testing too. So, I am kind of like a junior fullstack developer. I look forward to writing great projects and 
-							working with a software company someday, already on the hunt.
-							<br><br>
-							I hope you love this, I'll love to get feedbacks from you. Kindly go to the <a class="social-connect contact-link" data-target="contact-section" href="#contact-section">contact section</a> to hit me with your feedbacks.
-							You can also connect with me on 
-							<a href="/connect/?network=facebook" class="social-connect" target="_blank">facebook</a>,
-							<a href="/connect/?network=twitter" class="social-connect" target="_blank">twitter</a>,
-							<a href="/connect/?network=whatsapp" class="social-connect" target="_blank">whatsapp</a>, or
-							<a href="/connect/?network=linkedIn" class="social-connect" target="_blank">LinkedIn.</a><br><br>
-							<span class="toggler" data-location="extra-about-text" aria-expanded="false">show less...</span>
-						</p>
+					<div class="row align-items-center smash-about-section smash-about-me-section">
+						<div class="col-12 d-block d-md-none">
+							<h2 class="extra-about-header">About Me</h2>
+						</div>
+						<div class="col-12 col-md-6 col-lg-5 my-2">
+							<div class="display-img">
+								<img class="img-fluid extra-about-img" src="/extras/smash owner.jpg"/>
+							</div>
+						</div>
+						<div class="col-12 col-md-6 col-lg-7">
+							<div class="d-none d-md-block">
+								<h2 class="extra-about-header">About Me</h2>	
+							</div>
+							<p class="text-justify extra-about-text">
+								I am Jeremiah Joseph, a fullstack web developer. I started my web development journey recently (early 2019) and I have been
+								working on projects like this one to better hone my skills but unlike the others, I'm deploying this to a live server.
+								I have foundational knowledge with Python, Node, SQL, JavaScript, Bootstrap & Jquery, but still looking forward to learning Agile, 
+								React, Logging and testing too. So, I am kind of like a junior fullstack developer. I look forward to writing great projects and 
+								working with a software company someday, already on the hunt.
+								<br><br>
+								I hope you love this, I'll love to get feedbacks from you. Kindly go to the <a class="social-connect contact-link" data-target="contact-section" href="#contact-section">contact section</a> to hit me with your feedbacks.
+								You can also connect with me on 
+								<a href="/connect/?network=facebook" class="social-connect" target="_blank">facebook</a>,
+								<a href="/connect/?network=twitter" class="social-connect" target="_blank">twitter</a>,
+								<a href="/connect/?network=whatsapp" class="social-connect" target="_blank">whatsapp</a>, or
+								<a href="/connect/?network=linkedIn" class="social-connect" target="_blank">LinkedIn.</a><br><br>
+								<span class="toggler btn" data-location="extra-about-text" aria-expanded="false">show less...</span>
+							</p>
+						</div>
 					</div>
 				</div>
 				<div class="row justify-content-center align-items-center" id="contact-section">
@@ -157,6 +192,7 @@
 			</div>
 
 			<div class="alerts">
+				<noscript class="alert msg">This app needs JavaScript to function properly.</noscript>
 				<div id="not-found" class="alert msg hidden">
 					<p>
 						Sorry, we couldn't fetch weather info for that location, please confirm that you 
@@ -176,7 +212,7 @@
 						<p>WatchOut &copy 2020</p>
 					</div>
 					<div class="social-icons">
-						<a href="/connect/?network=github" target="_blank"><img src="/extras/github.png" class="social-icon" alt="DevWonder github profile"></a>
+						<a href="/connect/?network=github" target="_blank"><img src="/extras/github.png" class="social-icon github" alt="DevWonder github profile"></a>
 						<a href="/connect/?network=linkedIn" target="_blank"><img src="/extras/linkedin.png" class="social-icon" alt="DevWonder linkedin profile"></a>
 						<a href="/connect/?network=whatsapp" target="_blank"><img src="/extras/whatsapp.png" class="social-icon" alt="DevWonder whatsapp profile"></a>
 						<a href="/connect/?network=twitter" target="_blank"><img src="/extras/twitter.png" class="social-icon" alt="DevWonder github profile"></a>
