@@ -75,37 +75,6 @@
 									</p>
 								</div>
 							</div>
-							<div class="smash_box_templat hidden">
-								<h2></h2>
-								<h3 class="details-header">Basic Details</h3>
-								<p class="details-basic">
-									<span class="details-title">Temperature:</span>
-									<span data-name="temp" class="details-content"></span>
-								</p>
-								<p class="details-basic">
-									<span class="details-title">Pressure:</span>
-									<span data-name="pressure" class="details-content"></span>
-								</p>
-								<p class="details-basic">
-									<span class="details-title">Humidity:</span>
-									<span data-name="humidity" class="details-content"></span>
-								</p>
-								<p class="details-basic">
-									<span class="details-title">Cloudiness:</span>
-									<span data-name="clouds" class="details-content"></span>
-								</p>
-								<p class="details-basic">
-									<span class="details-title">Feels Like:</span>
-									<span data-name="feels_like" class="details-content"></span>
-								</p>
-								<h3 class="details-header">Weather Condition</h3>
-								<p class="details-weather">
-									<span class="details-title">Weather: </span>
-									<span data-name="main" class="details-content"></span>
-									<span data-name="description" class="details-content"></span>
-									<img class="details-icon" src="" alt="icon">
-								</p>
-							</div>
 							<section id="smash_request" class="hidden">
 								<!-- This section displays forecast data after a user makes a search -->
 								<button id="back_btn" class="back-btn">Close</button>
@@ -154,15 +123,13 @@
 								<h2 class="extra-about-header">About Me</h2>	
 							</div>
 							<p class="text-justify extra-about-text">
-								I am Jeremiah Joseph, a fullstack web developer. I started my web development journey recently (early 2019) and I have been
+								I am Jeremiah Joseph, a fullstack web developer and a music lover. I started my web development journey recently (early 2019) and I have been
 								working on projects like this one to better hone my skills but unlike the others, I'm deploying this to a live server.
-								I have foundational knowledge with Python, Node, SQL, JavaScript, Bootstrap & Jquery, but still looking forward to learning Agile, 
-								React, Logging and testing too. So, I am kind of like a junior fullstack developer. I look forward to writing great projects and 
-								working with a software company someday, already on the hunt.
+								I look forward to writing great projects, developing web apps that solves real life problems and working with a software company. 
+								Already on the hunt though.
 								<br><br>
 								I hope you love this, I'll love to get feedbacks from you. Kindly go to the <a class="social-connect contact-link" data-target="contact-section" href="#contact-section">contact section</a> to hit me with your feedbacks.
 								You can also connect with me on 
-								<a href="/connect/?network=facebook" class="social-connect" target="_blank">facebook</a>,
 								<a href="/connect/?network=twitter" class="social-connect" target="_blank">twitter</a>,
 								<a href="/connect/?network=whatsapp" class="social-connect" target="_blank">whatsapp</a>, or
 								<a href="/connect/?network=linkedIn" class="social-connect" target="_blank">LinkedIn.</a><br><br>
@@ -175,13 +142,20 @@
 					<div id="contact-form" class="col-12">
 						<h2 class="mb-5">Contact Me</h2>
 						<form>
+							<div class='alert alert-danger form-error' role="alert">
+								<em>Sorry. An error occured, please try again.</em>
+							</div>
+							<div class='alert alert-success form-success' role="alert">
+								<em>Thanks for reaching out. You'll hear from me shortly.</em>
+							</div>
 							<div class="p-3 my-3 form-field">
 								<label for="contact-email">Email</label>
-								<input id="contact-email" class="form-control contact-field" name="contact-email" type="email" placeholder="Please enter a working email address" required/>
+								<input id="contact-email" class="form-control contact-field" name="email" 
+								type="email" placeholder="Please enter a working email address" required/>
 							</div>
 							<div class="p-3 my-3 form-field">
 								<label for="contact-msg">Message</label>
-								<textarea id="contact-msg" minlength="50" cols="10" maxlength="3000" class="form-control contact-field" name="contact-msg" placeholder="Feel free to say what's on your mind" required></textarea>
+								<textarea id="contact-msg" minlength="50" cols="10" maxlength="3000" class="form-control contact-field" name="message" placeholder="Feel free to say what's on your mind" required></textarea>
 							</div>
 							<div class="d-flex justify-content-end">
 								<input type="submit" class="py-2 px-5 btn" value="Send" id="contact-submit"/>
@@ -221,8 +195,10 @@
 			</div>
 		</div>
 		<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+		<script type="text/javascript"
+			src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js">
+		</script>
 		<script src="/js/index.js"></script>
 	</body>
 </html>

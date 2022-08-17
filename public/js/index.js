@@ -11,10 +11,10 @@ $(() => {
         location: true, //used to check if user allowed access to location, changes to false if user denies access       //an object that contains needed divs(containers)
         smash_prev: $('#smash_prev'),
         smash_today: $('#smash_today'),
-        fill_node: $('#smash_request'),
+        searchResultDiv: $('#smash_request'),
+        weatherSlides: $('#smash-slides'),
         nav_items: $('.nav_item'),
-        smash_today_box: $('#smash_today_box'),
-        smash_boxes: $('.smash_box'),
+        // smash_boxes: $('.smash-box'),
         not_found: $('#not-found'),
         no_connection: $('#no-connection'),
         no_location: $('#no-location'),
@@ -22,7 +22,6 @@ $(() => {
         about_div: $('#smash_about'),
         contact_div: $('#smash_contact'),
         search_field: $('#search-text'),
-        search_list: $('#search-list'),
     };
 
     const removeIfExists = (div, klass) => {
@@ -35,12 +34,10 @@ $(() => {
         if(!div.hasClass(klass)) div.addClass(klass);
     }
 
-    const animate_click = async function () {
+    const animate_click = function () {
         removeIfExists($('#loader'), 'hidden');
         addIfNotExists($('#loader'), 'visible');
         addIfNotExists($('body'), 'noscroll');
-
-
     }
 
     const deanimate_click = function () {
@@ -146,7 +143,7 @@ $(() => {
 
     const show_full = async function (data) {
         // Create DOM element for display
-        smash_next = forecast_html_markup(klass=['carousel-item', 'smash-box']);
+        let smash_next = forecast_html_markup(klass=['smash-box']);
         //Format response and make it ready for display
         smash_next.querySelector(".weather-day").textContent = getDayNameFromTimestamp(data.dt*1000);
         let icon_url = `http://openweathermap.org/img/wn/${data.weather[0].icon}@4x.png`;
@@ -156,7 +153,10 @@ $(() => {
             let key = value.getAttribute("data-name");
             value.textContent = data[key];
         })
-        return smash_next;
+        let carouselItemContainer = $(create_dom_elem('div'));
+        carouselItemContainer.addClass('carousel-item');
+        carouselItemContainer.append(smash_next);
+        return carouselItemContainer;
     };
 
     let update_slide_indicator = function(count) {
@@ -235,7 +235,8 @@ $(() => {
         if (!response.ok) {
             if (look_up) {
                 display_not_found_msg();
-                addIfNotExists($('#smash_request'), 'hidden');
+                hide_search_result_div();
+                hide_weather_slides();
                 if (!LOCATION_GRANTED) {
                     // This means error in connection message is visible, hide it
                     hide_no_location_msg();
@@ -261,7 +262,15 @@ $(() => {
 
     const display_not_found_msg = () => removeIfExists(divs.not_found, 'hidden');
 
-    const hide_not_found_msg = () => addIfNotExists(divs.not_found, 'hidden')
+    const hide_not_found_msg = () => addIfNotExists(divs.not_found, 'hidden');
+
+    const hide_weather_slides = () => addIfNotExists(divs.weatherSlides, 'hidden');
+
+    const show_weather_slides = () => removeIfExists(divs.weatherSlides, 'hidden');
+
+    const hide_search_result_div = () => addIfNotExists(divs.searchResultDiv, 'hidden')
+
+    const show_search_result_div = () => removeIfExists(divs.searchResultDiv, 'hidden')
 
     const retrieve_from_storage = function () {
         //returns an object that contains forecasts retrieved from local storage
@@ -341,7 +350,7 @@ $(() => {
                 divs.def_lat = position.coords.latitude;
                 divs.def_lon = position.coords.longitude;
                 await check_data_in_storage();
-                $('#smash-slides').removeClass('hidden');
+                show_weather_slides();
                 LOCATION_GRANTED = true; // Change access to location status, if successful. Default is false.
                 deanimate_click();
             },
@@ -350,9 +359,9 @@ $(() => {
                 deanimate_click()
             }
         ); 
-    //     load_sliders();
-    //     $('#smash-slides').removeClass('hidden');
-    //     deanimate_click();
+        // load_sliders();
+        // $('#smash-slides').removeClass('hidden');
+        // deanimate_click();
     });
 
     const runSearch = async function (look_up) {
@@ -364,8 +373,7 @@ $(() => {
             'clouds': '%'
         };
         const search_result = await get_forecast_data(look_up);
-        console.log(search_result);
-        const smash_next = forecast_html_markup(klass=['smash-box', 'search-result']);
+        const smash_next = forecast_html_markup(klass=['smash-box']);
         document.querySelector('#country_name_request').textContent = look_up;
         //Format response and make it ready for display
         smash_next.querySelector(".weather-day").textContent = getDayNameFromTimestamp(search_result.dt*1000);
@@ -380,33 +388,6 @@ $(() => {
                 value.textContent = search_result.main[key] + modify_list[key];
             }
         });
-        // let key = '';
-        // smash_next
-        //     .querySelectorAll('.details-basic')
-        //     .forEach(value => {
-        //         key = value
-        //             .querySelector('.details-content')
-        //             .getAttribute('data-name');
-        //         if (key === 'clouds') {
-        //             value.querySelector('.details-content').textContent =
-        //                 search_result.clouds.all + modify_list[key];
-        //         } else {
-        //             value.querySelector('.details-content').textContent =
-        //                 search_result.main[key] + modify_list[key];
-        //         }
-        //     });
-        // smash_next
-        //     .querySelector('.details-weather')
-        //     .querySelectorAll('.details-content')
-        //     .forEach(value => {
-        //         key = value.getAttribute('data-name');
-        //         value.textContent = search_result.weather[0][key];
-        //     });
-        // const icon_url = `http://openweathermap.org/img/wn/${search_result.weather[0].icon}@2x.png`;
-        // smash_next
-        //     .querySelector('.details-weather')
-        //     .querySelector('img')
-        //     .setAttribute('src', icon_url);
 
         if ($('#smash_request .smash-box').length) {
             const html_content = $(smash_next).html();
@@ -416,14 +397,14 @@ $(() => {
         }
     };
     $('#back_btn, .close-btn').on('click', () => {
-        addIfNotExists($('#smash_request'), 'hidden');
-        addIfNotExists(divs.not_found, 'hidden'); // Hide not found message, should incase an error occured
+        hide_search_result_div();
+        hide_not_found_msg();  // Hide not found message, should incase an error occured
         if (!LOCATION_GRANTED) {
             // Location not granted, show no_location error
-            removeIfExists(divs.no_location, 'hidden');
+            hide_no_location_msg();
         } else {
             // If location was granted, then show slides
-            removeIfExists($('#smash-slides'), 'hidden');
+            show_weather_slides();
         }
     });
 
@@ -438,8 +419,8 @@ $(() => {
             closeMenu(); // Should it be opened previously. (Mainly applies to mobiles)
             await runSearch(look_up, field);
             // Display search result or empty div in the case of an error
-            addIfNotExists($('#smash-slides'), 'hidden');
-            removeIfExists($('#smash_request'), 'hidden');
+            hide_weather_slides();
+            show_search_result_div();
         } catch (err) {
             console.error(err);
         } finally {
@@ -541,5 +522,38 @@ $(() => {
             copy_div.html(`WatchOut &copy 2020-${present.toString()}`);
         }
     })();
+
+    const sendMail = async (email, message) => {
+        await emailjs.init('cGlqivYQAmD66SRrd');
+        await emailjs.send("service_onnkur3","template_ilc1dwi",{
+            email,
+            message,
+            app_name: "WatchOut App",
+        });
+    }
+
+
+    $('form > .alert').fadeOut(); // Fade out form error by default
+
+    $('#contact-form > form').on('submit', ev => {
+        ev.preventDefault();
+        let form = ev.target;
+        $('form > .alert').fadeOut(); // Fade out form error, if it was formerly visible
+        if (form.reportValidity()) {
+            $('#contact-form > form :input').prop('disabled', true);
+            $('#contact-submit').val('Sending...');
+            sendMail(form.email.value, form.message.value)
+            .then(() => {
+                form.reset();
+                $('.form-success').fadeIn();
+            }, 
+            () => {
+                $('.form-error').fadeIn();
+            }).finally(() => {
+                $('#contact-submit').val('Send');
+                $('#contact-form > form :input').prop('disabled', false);
+            });
+        }
+    });
 
 });

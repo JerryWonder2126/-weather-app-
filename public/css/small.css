@@ -29,39 +29,26 @@
         top: 0;
         left: 0;
     }
-    .smash_box, #request-info{
-        text-align: start;        
-    }
     .smash_btn_wrapper button{
         width: 120px;
     }
     /*Formatting for forecasts gotten from API*/
-    /* .details-time{
-        text-align: end;
+    .details-basic {
+        display: grid;
+        place-content: center;
     }
-    .details-header{
-        text-align: center;
+    .details-info {
+        padding-top: 2rem;
+        padding-bottom: 2rem;
     }
-    .details-weather, .details-header{
-        text-transform: capitalize;
+    .weather-day {
+        font-size: small;
     }
-    .details-title{
-        font-weight: 600;
-    }
-    .details-icon{
-        margin: -40px -40px -40px -20px;
-        display: inline;
-    } */
 
     .smash-about-section {
-        /* background-image: url(/extras/about1.svg); */
         background-repeat: no-repeat;
         background-size: contain;
         background-position: center;
-    }
-
-    .carousel-control-prev, .carousel-control-next {
-        display: none!important;
     }
     
 }
