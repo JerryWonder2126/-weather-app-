@@ -19,8 +19,8 @@ $(() => {
         no_connection: $('#no-connection'),
         no_location: $('#no-location'),
         main_div: $('main'),
-        about_div: $('#smash_about'),
-        contact_div: $('#smash_contact'),
+        about_div: $('#about-section'),
+        contact_div: $('#contact-section'),
         search_field: $('#search-text'),
     };
 
@@ -45,95 +45,6 @@ $(() => {
         removeIfExists($('#loader'), 'visible');
         removeIfExists($('body'), 'noscroll');
     }
-
-    const proc_gmt = function (time_stamp) {
-        /* processes timestamp and returns in the amount of
-            elapsed secs,mins,days,weeks,months or years */
-        const secs = Math.abs(Date.now() - time_stamp) / 1000;
-        let res = '';
-        if (secs >= 60 && secs < 3600) {
-            //i.e still less than an hour
-            res = parseInt(secs / 60) + ' min(s) ago';
-        } else if (secs >= 3600 && secs < 86400) {
-            //i.e still less than a day
-            res = parseInt(secs / 3600) + ' hr(s) ago';
-        } else if (secs >= 86400 && secs < 604800) {
-            //i.e still less than a week
-            res = parseInt(secs / 86400) + ' day(s) ago';
-        } else if (secs >= 604800 && secs < 2419200) {
-            //i.e still less than a month
-            res = parseInt(secs / 604800) + ' week(s) ago';
-        } else if (secs >= 2419200 && secs < 29030400) {
-            //i.e still less than a year
-            res = parseInt(secs / 2419200) + ' month(s) ago';
-        } else if (secs >= 29030400) {
-            //i.e more than or equal to a year
-            res = parseInt(secs / 29030400) + ' year(s) ago';
-        } else {
-            //i.e still less than a minute
-            res = parseInt(secs) + ' sec(s) ago';
-        }
-        return res;
-    };
-
-    const proc_gmt_days = function (time_stamp) {
-        /* processes timestamp and returns the amount of
-            days from now */
-        const stamp_day = Number(new Date(time_stamp).getDate());
-        let day_diff = Math.abs(stamp_day - new Date().getDate());
-        const month_diff = Math.abs(
-            new Date(time_stamp).getMonth() - new Date().getMonth()
-        );
-        let res = '';
-        if (month_diff > 0) {
-            //i.e time_stamp falls into a succeding month
-            if (month_diff === 1) {
-                // time_stamp falls into the next month
-                console.log('here');
-                if (stamp_day === 1) {
-                    //i.e next day is the first day of the next month
-                    res = 'tomorrow';
-                } else {
-                    day_diff = parseInt(Math.abs(Date.now() - time_stamp) / 86400) + 1;
-                    res = `${day_diff} days from now`;
-                }
-            } else {
-                //i.e time_stamp falls farther than a month
-                day_diff = parseInt(Math.abs(Date.now() - time_stamp) / 86400);
-                res = `${day_diff} days from now`;
-            }
-        } else if (day_diff === 0) {
-            res = 'today';
-        } else if (day_diff === 1) {
-            res = 'tomorrow';
-        } else {
-            res = `${day_diff} days from now`;
-        }
-        return res;
-    };
-
-    // const show_full = async function (response) {
-    //     let data = response;    //turn response into an object
-    //     let retrieved_time = localStorage.getItem("retrieved_time");
-    //     // Create DOM element for display
-    //     smash_next = forecast_html_markup(klass=['carousel-item', 'smash_box', 'my_card']);
-    //     smash_next.querySelector("h2").textContent = proc_gmt_days(data.dt*1000);
-    //     let time = proc_gmt(Number(retrieved_time));
-    //     //Format response and make it ready for display
-    //     let key = "";
-    //     smash_next.querySelectorAll(".details-basic").forEach(function(value,index,array){
-    //         key = value.querySelector(".details-content").getAttribute("data-name");
-    //         value.querySelector(".details-content").textContent = data[key];
-    //     });
-    //     smash_next.querySelector(".details-weather")
-    //     .querySelectorAll(".details-content").forEach(function(value, index, array){
-    //         key = value.getAttribute("data-name");
-    //         value.textContent = data.weather[0][key];
-    //     });
-    //     let icon_url = `http://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png`;
-    //     smash_next.querySelector(".details-weather").querySelector("img").setAttribute("src", icon_url);
-    //     return smash_next;
-    // };
 
     const getDayNameFromTimestamp = (timestamp) => {
         let days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
@@ -499,7 +410,7 @@ $(() => {
         // To make sure no content is hidden behind the header
         const header_height = $('header').outerHeight();
         const position = section.offset().top - header_height;
-        $('html,body').animate({ scrollTop: position }, 'slow');
+        $('html, body').animate({ scrollTop: position }, 'slow');
     }
 
     const closeMenu = () => {
@@ -552,6 +463,7 @@ $(() => {
             }).finally(() => {
                 $('#contact-submit').val('Send');
                 $('#contact-form > form :input').prop('disabled', false);
+                offset_section(divs.contact_div);
             });
         }
     });
