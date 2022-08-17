@@ -109,7 +109,7 @@ header{
 }
 main {
     width: 90%;
-    max-width: 900px;
+    max-width: 670px;
 }
 .smash_box, #request-info{
     border-radius: 20px;
@@ -230,7 +230,7 @@ footer div {
 }
 
 .social-icon.github {
-    color: var(--custom-white);
+    background-color: var(--custom-white);
     border-radius: 50%;
 }
 
@@ -239,8 +239,8 @@ footer div {
     position: absolute;
     width: 100vw;
     height: 100vh;
-    top: 0;
-    left: 0;
+    top: 0%;
+    left: 0%;
     background-color: transparent;
     display: none;
     touch-action: none;
@@ -252,11 +252,7 @@ footer div {
     background-color: rgba(0, 0, 0, 0.863);
 }
 #loader.visible::after {
-  /* position: fixed; */
   content: '';
-  /* left: 50%;
-  top: 50%; */
-  /* transform: translate(-20vh); */
   border: 9px solid rgb(28 23 28);
   border-radius: 50%;
   border-top: 9px solid rgb(193 178 199);
@@ -268,11 +264,6 @@ footer div {
 }
 .noscroll {
     overflow: hidden;
-}
-
-/* FOR SLIDES */
-.smash-box.details-basic {
-    display: flex;
 }
 
 @keyframes spin {
@@ -302,24 +293,43 @@ footer div {
 }
 
 /* FORMATTING FOR INFO GOTTEN FROM API */
-
 .carousel-indicators {
-    bottom: -30px;
+    bottom: -3rem;
 }
 
+.carousel-control-prev, .carousel-control-next {
+    display: none!important;
+}
 
-.smash-box.active, .search-result {
+.smash-box.details-basic {
     display: flex;
-    align-items: center;
+}
+
+.smash-box {
+    display: grid;
+    grid-template-columns: 4fr 8fr;
+    border-radius: 20px;
 }
 
 .details-basic {
-    justify-content: end;
     background-color: rgb(1 3 14 / 84%);
-    margin-right: 0.5rem;
     border-radius: 20px;
     height: 100%;
     padding: 0.5rem;
+    border-top-right-radius: 0px;
+    border-bottom-right-radius: 0px;
+}
+
+.details-info {
+    padding-left: 0.5rem;
+    border: 0.3rem solid var(--custom-white);
+    width: 100%;
+    height: 100%;
+    display: grid;
+    place-content: center start;
+    border-radius: 20px;
+    border-top-left-radius: 0px;
+    border-bottom-left-radius: 0px;
 }
 
 .weather-info-text, .weather-day {
@@ -336,5 +346,7 @@ footer div {
 }
 
 .details-icon {
-    width: 30vw;
+    width: 100%;
+    height: auto;
+    max-width: 200px;
 }
