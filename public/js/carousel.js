@@ -135,7 +135,6 @@ const get_forecast_data = async function (body, endpoint) {
  * @returns {Array} an array of weather data (objects)
  */
  const retrieve_from_storage = function () {
-    //
     const store_data = localStorage.getItem('store');
     return store_data ? JSON.parse(store_data) : [];
 };
