@@ -2,13 +2,15 @@
 import app from './index';
 const path = require('path');
 
+const envFilePaths = ['.test.env', '.prod.env', '.dev.env'];
+const environment = process.env['NODE_ENV'] || '';
 require('dotenv').config({
   path: path.resolve(
     process.cwd(),
-    process.env['NODE_ENV'] === 'test' ? '.test.env' : '.local.env'
+    envFilePaths.find(value => value.includes(environment))
   ),
 });
-const port = process.env.PORT;
+const port = process.env['PORT'];
 
 app.listen(port, () => {
   console.log(`App started. Listening on port ${port}`);
