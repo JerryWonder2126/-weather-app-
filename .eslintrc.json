@@ -16,5 +16,8 @@
       }
     ],
     "@typescript-eslint/no-explicit-any": ["off"]
+  },
+  "parserOptions": {
+    "sourceType": "module"
   }
 }
