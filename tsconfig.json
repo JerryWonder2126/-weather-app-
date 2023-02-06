@@ -7,7 +7,9 @@
     "lib": ["es5", "es6", "dom"]
   },
   "include": [
-    "src/**/*.ts",
+    "src/**/*.ts", 
+    "index.ts", 
+    "server.ts",
     "test/**/*.ts",
   ]
 }

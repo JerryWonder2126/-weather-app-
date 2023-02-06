@@ -1,3 +1,3 @@
-build/
+dist/
 */js/*.js
 *.test.js
