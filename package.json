@@ -11,7 +11,8 @@
     "lint": "gts lint",
     "clean": "gts clean",
     "compile": "tsc",
-    "fix": "gts fix"
+    "fix": "gts fix",
+    "gdoc": "npx jsdoc -c jsdoc.json -R docs_index.md"
   },
   "repository": {
     "type": "git",
