@@ -1,6 +1,3 @@
-/* eslint-disable prettier/prettier */
-/* eslint-disable */
-
 import { 
     animate_click,
     deanimate_click,

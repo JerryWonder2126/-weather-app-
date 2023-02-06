@@ -1,6 +1,3 @@
-/* eslint-disable prettier/prettier */
-/* eslint-disable */
-
 const divs = {
     def_lat: 74, //default longitude, just in case IP data API is unavailable
     def_lon: -31, //default longitude, just in case IP data API is unavailable
