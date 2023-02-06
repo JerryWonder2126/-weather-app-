@@ -1,12 +1,8 @@
 import * as express from 'express';
 import * as bodyParser from 'body-parser';
 // eslint-disable-next-line node/no-unpublished-import
-import * as dotenv from 'dotenv';
 import {router} from './controllers/controller';
-
-import path = require('path');
-
-dotenv.config();
+const path = require('path');
 
 const app = express();
 
@@ -24,8 +20,4 @@ app.set('view engine', 'ejs');
 
 app.use('/', router);
 
-const port = process.env.PORT || 8000;
-
-app.listen(port, () => {
-  console.log(`App started. Listening on port ${port}`);
-});
+export default app;
