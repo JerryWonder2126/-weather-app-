@@ -2,7 +2,7 @@
 import app from './index';
 const path = require('path');
 
-const envFilePaths = ['.test.env', '.prod.env', '.dev.env'];
+const envFilePaths = ['.tests.env', '.prod.env', '.dev.env'];
 const environment = process.env['NODE_ENV'] || '';
 require('dotenv').config({
   path: path.resolve(
