@@ -6,13 +6,14 @@
   "scripts": {
     "test": "cross-env NODE_ENV=test jest --detectOpenHandles",
     "build": "tsc",
-    "dev": "cross-env NODE_ENV=dev nodemon",
-    "start": "cross-env NODE_ENV=prod node dist/server.js",
+    "dev": "cross-env NODE_ENV=dev nodemon -r dotenv/config",
+    "start": "node dist/server.js",
     "lint": "gts lint",
     "clean": "gts clean",
     "compile": "tsc",
     "fix": "gts fix",
-    "gdoc": "npx jsdoc -c jsdoc.json -R docs_index.md"
+    "gdoc": "npx jsdoc -c jsdoc.json -R docs_index.md",
+    "predeploy": "npm run build"
   },
   "repository": {
     "type": "git",
