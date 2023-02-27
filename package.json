@@ -13,7 +13,7 @@
     "compile": "tsc",
     "fix": "gts fix",
     "gdoc": "npx jsdoc -c jsdoc.json -R docs_index.md",
-    "predeploy": "npm run build"
+    "predeploy": "yarn run build"
   },
   "repository": {
     "type": "git",
@@ -40,17 +40,16 @@
     "nodemon": "^2.0.15",
     "supertest": "^6.3.3",
     "ts-jest": "^29.0.5",
-    "ts-node": "^10.4.0",
-    "typescript": "^4.5.4"
+    "ts-node": "^10.4.0"
   },
   "dependencies": {
     "axios": "^0.25.0",
     "body-parser": "^1.19.1",
     "ejs": "^3.1.8",
     "express": "^4.17.2",
-    "jquery": "^3.6.0",
-    "jsdom": "^19.0.0"
+    "typescript": "^4.5.4"
   },
   "engines": {
+    "node": ">=v16.13.2"
   }
 }
