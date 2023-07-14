@@ -10,7 +10,8 @@
     "start": "node dist/server.js",
     "compile": "tsc",
     "gdoc": "npx jsdoc -c jsdoc.json -R docs_index.md",
-    "pre-deploy": "yarn run build"
+    "pre-deploy": "yarn run build",
+    "prepare": "husky install"
   },
   "repository": {
     "type": "git",
@@ -23,13 +24,16 @@
   },
   "homepage": "https://github.com/JerryWonder2126/weather-app#readme",
   "devDependencies": {
+    "@commitlint/cli": "^17.6.6",
+    "@commitlint/config-conventional": "^17.6.6",
     "@jest/globals": "^29.4.1",
     "@types/body-parser": "^1.19.2",
     "@types/express": "^4.17.13",
+    "@types/node": "^16.13.2",
     "@types/supertest": "^2.0.12",
     "cross-env": "^7.0.3",
-    "@types/node": "^16.13.2",
     "dotenv": "^16.0.1",
+    "husky": "^8.0.3",
     "jest": "^29.4.1",
     "nodemon": "^2.0.15",
     "supertest": "^6.3.3",
